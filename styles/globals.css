@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f5;
+  --bg-tertiary: #efefed;
+  --text-primary: #0a0a0a;
+  --text-secondary: #3d3d3d;
+  --text-muted: #888888;
+  --accent-primary: #6c63ff;
+  --accent-secondary: #b9ff66;
+  --border: #e5e5e5;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --font-display: "Syne", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-accent: "Inter", sans-serif;
+  --font-ui: "Inter", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1a1a1a;
+  --text-primary: #f0f0f0;
+  --text-secondary: #b0b0b0;
+  --text-muted: #666666;
+  --accent-primary: #8b85ff;
+  --accent-secondary: #b9ff66;
+  --border: #2a2a2a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-border: var(--border);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-accent: var(--font-accent);
+  --font-ui: var(--font-ui);
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+}
+
+html {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body), sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent-primary) 24%, transparent);
+  color: var(--text-primary);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .display {
+    font-family: var(--font-display), sans-serif;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+  }
+
+  code,
+  pre,
+  .mono {
+    font-family: var(--font-mono), monospace;
+  }
+
+  p,
+  li,
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    color: inherit;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+}
+
+.type-display-hero {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+  font-weight: 600;
+}
+
+.type-display-section {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 600;
+}
+
+.type-accent-label {
+  font-family: var(--font-accent), sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.type-body-large {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.type-body-small {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.accent-gradient {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass-card {
+  background: color-mix(in srgb, var(--bg-primary) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.surface-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.surface-card-strong {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
