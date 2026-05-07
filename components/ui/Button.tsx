@@ -1,8 +1,9 @@
 "use client";
 
 import type { ButtonHTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode } from "react";
-import { forwardRef, useMemo, useRef, useState } from "react";
+import { forwardRef } from "react";
 import { Slot } from "@radix-ui/react-slot";
+import { useMagneticHover } from "../../lib/hooks/useMagneticHover";
 import { cn } from "../../lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
@@ -69,6 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     onMouseMove,
     onMouseLeave,
     size = "md",
+    style,
     variant = "primary",
     type = "button",
     ...props
@@ -76,38 +78,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   ref,
 ) {
   const Comp = asChild ? Slot : "button";
-  const localRef = useRef<HTMLButtonElement | null>(null);
-  const [transform, setTransform] = useState("translate3d(0, 0, 0)");
-
-  const isInteractive = useMemo(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  }, []);
+  const magnetic = useMagneticHover<HTMLButtonElement>({
+    disabled: disabled || isLoading,
+    maxDisplacement: 8,
+  });
 
   function handleMouseMove(event: ReactMouseEvent<HTMLButtonElement>) {
     onMouseMove?.(event);
-
-    if (!isInteractive || isLoading || disabled) {
-      return;
-    }
-
-    const element = localRef.current;
-    if (!element) {
-      return;
-    }
-
-    const rect = element.getBoundingClientRect();
-    const offsetX = (event.clientX - rect.left - rect.width / 2) / rect.width;
-    const offsetY = (event.clientY - rect.top - rect.height / 2) / rect.height;
-    setTransform(`translate3d(${offsetX * 8}px, ${offsetY * 6}px, 0)`);
+    magnetic.onMouseMove(event);
   }
 
   function handleMouseLeave(event: ReactMouseEvent<HTMLButtonElement>) {
     onMouseLeave?.(event);
-    setTransform("translate3d(0, 0, 0)");
+    magnetic.onMouseLeave();
   }
 
   const content = (
@@ -129,17 +112,24 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   if (asChild) {
     return (
       <Comp
-        ref={ref}
+        ref={(node) => {
+          magnetic.ref(node);
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+        }}
         aria-busy={isLoading || undefined}
         aria-disabled={disabled || isLoading || undefined}
         className={sharedClassName}
         data-loading={isLoading ? "true" : undefined}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
-        style={{ transform }}
+        style={{ ...magnetic.style, ...style }}
         {...props}
       >
-        {content}
+        {children}
       </Comp>
     );
   }
@@ -147,7 +137,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   return (
     <Comp
       ref={(node) => {
-        localRef.current = node;
+        magnetic.ref(node);
         if (typeof ref === "function") {
           ref(node);
         } else if (ref) {
@@ -160,7 +150,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       disabled={disabled || isLoading}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      style={{ transform }}
+      style={{ ...magnetic.style, ...style }}
       type={type}
       {...props}
     >
