@@ -13,7 +13,7 @@ import { projects } from "../lib/data/projects";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://suthankan.dev"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://suthankan.dev"),
   title: {
     default: "Suthankan",
     template: "%s | Suthankan",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
       "A premium editorial portfolio blending strong engineering, case studies, and personal depth.",
     siteName: "Suthankan",
     type: "website",
-    url: "https://suthankan.dev",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://suthankan.dev",
     images: [
       {
         url: `/og?${new URLSearchParams({

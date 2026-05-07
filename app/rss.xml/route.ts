@@ -1,6 +1,6 @@
 import { allPosts } from "contentlayer/generated";
 
-const SITE_URL = "https://suthankan.dev";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://suthankan.dev";
 
 function escapeXml(value: string): string {
   return value

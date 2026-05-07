@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const GITHUB_USERNAME = "Suthankan1";
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME ?? "Suthankan1";
 const CACHE_HEADERS = {
   "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
 };

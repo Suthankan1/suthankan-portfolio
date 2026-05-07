@@ -12,7 +12,7 @@ const subjectOptions = [
 
 const contactFormSchema = z.object({
   name: z.string().trim().min(2),
-  email: z.string().trim().email(),
+  email: z.string().trim().pipe(z.email()),
   subject: z.enum(subjectOptions),
   message: z.string().trim().min(20),
   website: z.string().trim().max(0).optional(),
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
         {
           success: false,
           error: "Invalid form data. Please check your fields and try again.",
-          fieldErrors: parsed.error.flatten().fieldErrors,
+          fieldErrors: z.flattenError(parsed.error).fieldErrors,
         },
         { status: 400 },
       );
@@ -64,8 +64,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
-    const toEmail = process.env.CONTACT_TO_EMAIL ?? "Suthankanbala2019@gmail.com";
-    const fromEmail = process.env.CONTACT_FROM_EMAIL ?? "Portfolio Contact <onboarding@resend.dev>";
+    const toEmail = process.env.CONTACT_TO_EMAIL;
+    const fromEmail = process.env.CONTACT_FROM_EMAIL;
+
+    if (!toEmail || !fromEmail) {
+      return NextResponse.json(
+        { success: false, error: "Contact form is not configured. Please try another way to reach out." },
+        { status: 503 },
+      );
+    }
 
     const submittedAt = new Intl.DateTimeFormat("en-LK", {
       dateStyle: "full",

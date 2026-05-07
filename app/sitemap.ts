@@ -4,7 +4,7 @@ import { projects } from "../lib/data/projects";
 import { getCaseStudy } from "../lib/data/case-studies";
 import { trips } from "../lib/data/travels";
 
-const SITE_URL = "https://suthankan.dev";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://suthankan.dev";
 
 const staticPages = [
   "",
