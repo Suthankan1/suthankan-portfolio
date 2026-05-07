@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0D0D0D"/>
+  <rect x="86" y="78" width="1028" height="474" rx="24" fill="#141414" stroke="#2A2A2A"/>
+  <rect x="184" y="188" width="312" height="254" rx="28" fill="#1A1A1A" stroke="#6C63FF" stroke-width="5"/>
+  <circle cx="262" cy="268" r="24" fill="#B9FF66"/>
+  <circle cx="418" cy="268" r="24" fill="#6C63FF"/>
+  <path d="M262 292V356H418V292" stroke="#F0F0F0" stroke-opacity=".7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M496 316H636M636 316V214H742M636 316V418H742" stroke="#2A2A2A" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="772" cy="214" r="34" fill="#1A1A1A" stroke="#B9FF66" stroke-width="8"/>
+  <circle cx="772" cy="418" r="34" fill="#1A1A1A" stroke="#6C63FF" stroke-width="8"/>
+  <text x="830" y="272" fill="#B9FF66" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="5">HARDWARE PROJECT</text>
+  <text x="830" y="352" fill="#F0F0F0" font-family="Inter, Arial, sans-serif" font-size="70" font-weight="800">Project Website</text>
+  <text x="832" y="400" fill="#B0B0B0" font-family="Inter, Arial, sans-serif" font-size="26">Academic showcase and documentation</text>
+</svg>
