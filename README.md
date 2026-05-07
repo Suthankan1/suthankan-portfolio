@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Suthankan Portfolio
 
-## Getting Started
+Premium editorial portfolio for Suthankan: IT undergraduate, full-stack developer, technical writer, and traveller from Sri Lanka. The site is built to showcase serious engineering depth through case studies, MDX writing, travel journals, certificates, services, and a polished contact funnel.
 
-First, run the development server:
+## Tech Stack
+
+| Layer | Technology |
+| --- | --- |
+| Framework | Next.js 16 App Router |
+| Language | TypeScript strict mode |
+| Styling | Tailwind CSS v4 with CSS variables |
+| Animation | Framer Motion |
+| Content | MDX with Contentlayer2 |
+| Search | Fuse.js |
+| Email | Resend |
+| Counters | Upstash Redis |
+| Media | Next/Image, Unsplash, Cloudinary-ready |
+| Comments | Giscus |
+| Analytics | Vercel Analytics |
+| OG Images | Satori on Vercel Edge |
+| Deployment | Vercel, Singapore region |
+
+## Local Setup
+
+```bash
+npm install
+cp .env.local.example .env.local
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run type-check
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run bundle analysis with:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+ANALYZE=true npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+Copy `.env.local.example` to `.env.local` and fill only the services you use.
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical site URL, for metadata and feeds |
+| `RESEND_API_KEY` | Contact form email delivery |
+| `CONTACT_TO_EMAIL` | Inbox that receives contact form submissions |
+| `CONTACT_FROM_EMAIL` | Verified sender address for contact form emails |
+| `RESEND_AUDIENCE_ID` | Resend audience ID for newsletter subscribers |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST endpoint for counters |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token for counters |
+| `NEXT_PUBLIC_GISCUS_REPO` | GitHub repo used by Giscus comments |
+| `NEXT_PUBLIC_GISCUS_REPO_ID` | Giscus repository ID |
+| `NEXT_PUBLIC_GISCUS_CATEGORY` | Giscus discussion category |
+| `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | Giscus category ID |
+| `CLOUDINARY_CLOUD_NAME` | Optional Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Optional Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Optional Cloudinary API secret |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps key for travel embeds |
+| `CALENDLY_URL` | Booking URL for service calls |
+| `SPOTIFY_CLIENT_ID` | Spotify app client ID for now playing |
+| `SPOTIFY_CLIENT_SECRET` | Spotify app client secret for now playing |
+| `SPOTIFY_REFRESH_TOKEN` | Spotify refresh token with `user-read-currently-playing` scope |
+| `WAKATIME_USERNAME` | WakaTime username for coding stats |
+| `WAKATIME_API_KEY` | WakaTime API key for stats reads |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Never commit real `.env.local` values.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+This project is configured for Vercel through `vercel.json`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Build command: `npm run build`
+- Preferred function region: `sin1` for low-latency access from Sri Lanka and South Asia
+- `www.suthankan.dev` redirects permanently to `suthankan.dev`
+- Static assets are cached for one year
+- HTML/page responses are marked `no-cache`
+- Security headers are set in both `next.config.ts` and `vercel.json`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Before deploying:
+
+```bash
+npm run lint
+npm run type-check
+npm run build
+```
+
+## Content
+
+Blog posts live in `content/blog` as MDX and are typed by `contentlayer.config.ts`. Project and travel data currently live in `lib/data`.
+
+## Contact
+
+Suthankan  
+Email: `Suthankanbala2019@gmail.com`  
+Phone: `+94 71 938 6979`  
+GitHub: `https://github.com/Suthankan1`  
+LinkedIn: `https://www.linkedin.com/in/suthankan/`
