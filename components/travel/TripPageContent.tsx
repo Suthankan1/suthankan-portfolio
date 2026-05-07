@@ -6,7 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import "yet-another-react-lightbox/styles.css";
-import { ChevronDown, ExternalLink, MapPin } from "lucide-react";
+import { ChevronDown, MapPin } from "lucide-react";
 import {
   countryCodeToFlag,
   formatTripDateRange,
@@ -226,33 +226,6 @@ export function TripPageContent({ trip, relatedTrips }: { trip: Trip; relatedTri
 
       <PhotoGallery trip={trip} />
       <TravelTips trip={trip} />
-
-      <section className="mx-auto w-full max-w-7xl px-5 py-14 sm:px-6 lg:px-8">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-primary">Map</p>
-            <h2 className="mt-2 font-display text-5xl font-semibold tracking-[-0.05em]">Where it happened</h2>
-          </div>
-          <a
-            href={trip.mapEmbedUrl.replace("/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=", "/search/?api=1&query=")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-bg-secondary px-4 py-2 text-sm font-semibold text-text-secondary transition-colors hover:border-[var(--accent-primary)] hover:text-text-primary"
-          >
-            Open map
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        </div>
-        <div className="overflow-hidden rounded-[var(--radius-md)] border border-border bg-bg-secondary">
-          <iframe
-            title={`${trip.destination} map`}
-            src={trip.mapEmbedUrl}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-[420px] w-full border-0"
-          />
-        </div>
-      </section>
 
       <RelatedTrips trips={relatedTrips} />
     </main>
