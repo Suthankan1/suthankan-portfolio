@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "npm run type-check && next build --webpack",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "type-check": "tsc --noEmit"
+    "type-check": "contentlayer2 build && tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
