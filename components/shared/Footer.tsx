@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronUp, Mail, Phone, X } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { NowPlaying } from "./NowPlaying";
 
 type QuickLink = Readonly<{
   label: string;
@@ -194,7 +193,6 @@ export function Footer() {
                 <p>Sri Lanka</p>
               </div>
 
-              <NowPlaying />
             </div>
           </div>
 

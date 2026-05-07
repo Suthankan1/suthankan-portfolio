@@ -19,7 +19,6 @@ export type Trip = {
     title: string;
     detail: string;
   }>;
-  mapEmbedUrl: string;
 };
 
 export const trips: Trip[] = [];
