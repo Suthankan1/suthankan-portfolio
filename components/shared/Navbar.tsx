@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, Moon, Search, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/Button";
 import { cn } from "../../lib/utils";
@@ -19,34 +20,29 @@ const NAV_LINKS = [
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
   { label: "Travels", href: "/travels" },
+  { label: "Services", href: "/services" },
   { label: "Certificates", href: "/certificates" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const satisfies readonly NavLink[];
 
-function MonogramLogo() {
+function ProfileLogo({ size = "md" }: { size?: "md" | "lg" }) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 64 64"
-      className="h-10 w-10 drop-shadow-[0_0_18px_color-mix(in_srgb,var(--accent-primary)_24%,transparent)]"
-      fill="none"
+    <span
+      className={cn(
+        "relative inline-flex shrink-0 overflow-hidden rounded-full border-2 border-[color-mix(in_srgb,var(--accent-primary)_55%,var(--border))] bg-bg-tertiary shadow-[0_0_18px_color-mix(in_srgb,var(--accent-primary)_18%,transparent)]",
+        size === "lg" ? "h-12 w-12" : "h-10 w-10",
+      )}
     >
-      <defs>
-        <linearGradient id="monogram-gradient" x1="8" x2="56" y1="8" y2="56" gradientUnits="userSpaceOnUse">
-          <stop stopColor="var(--accent-primary)" />
-          <stop offset="1" stopColor="var(--accent-secondary)" />
-        </linearGradient>
-      </defs>
-      <circle cx="32" cy="32" r="28" stroke="url(#monogram-gradient)" strokeWidth="3" opacity="0.92" />
-      <path
-        d="M20 42V22c0-1.1.9-2 2-2h5c3.9 0 7 3.1 7 7s-3.1 7-7 7h-2v8m17 0-8-10 7-10"
-        stroke="url(#monogram-gradient)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
+      <Image
+        src="/images/profile/my-photo.jpeg"
+        alt=""
+        fill
+        priority={size === "md"}
+        sizes={size === "lg" ? "48px" : "40px"}
+        className="object-cover"
       />
-    </svg>
+    </span>
   );
 }
 
@@ -103,6 +99,10 @@ export function Navbar() {
     isScrolled ? "bg-bg-primary/80 backdrop-blur-xl" : "bg-transparent backdrop-blur-none",
   );
 
+  function openCommandPalette() {
+    window.dispatchEvent(new Event("open-command-palette"));
+  }
+
   return (
     <header className={shellClassName}>
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -111,7 +111,7 @@ export function Navbar() {
           aria-label="Suthankan home"
           className="flex items-center gap-3 text-text-primary transition-opacity hover:opacity-80"
         >
-          <MonogramLogo />
+          <ProfileLogo />
           <span className="type-accent-label hidden text-text-muted sm:block">Suthankan</span>
         </Link>
 
@@ -141,6 +141,18 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            aria-label="Open command palette"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-border bg-bg-primary px-3 text-text-primary shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+            onClick={openCommandPalette}
+          >
+            <Search className="h-4 w-4" />
+            <kbd className="hidden text-[11px] font-semibold text-text-muted sm:inline-flex">
+              ⌘K
+            </kbd>
+          </button>
+
           <button
             type="button"
             aria-label={currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
@@ -191,7 +203,7 @@ export function Navbar() {
             >
               <div className="flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                  <MonogramLogo />
+                  <ProfileLogo size="lg" />
                   <span className="type-accent-label text-text-muted">Suthankan</span>
                 </Link>
 

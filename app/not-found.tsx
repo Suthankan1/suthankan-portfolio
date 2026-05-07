@@ -8,9 +8,9 @@ export default function NotFound() {
 
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[72px_72px] opacity-40 mask-[radial-gradient(circle_at_center,black_25%,transparent_82%)]" />
 
-      <div className="absolute left-[8%] top-[14%] h-40 w-40 rounded-full bg-[color-mix(in_srgb,var(--accent-primary)_10%,transparent)] blur-3xl motion-safe:animate-[float_16s_ease-in-out_infinite]" />
-      <div className="absolute right-[10%] top-[22%] h-28 w-28 rounded-[2.5rem] bg-[color-mix(in_srgb,var(--accent-secondary)_16%,transparent)] blur-2xl motion-safe:animate-[float_19s_ease-in-out_infinite]" />
-      <div className="absolute bottom-[14%] left-[20%] h-24 w-24 rounded-full border border-border/60 bg-transparent motion-safe:animate-[float_22s_ease-in-out_infinite]" />
+      <div className="absolute left-[8%] top-[14%] h-40 w-40 rounded-full bg-[color-mix(in_srgb,var(--accent-primary)_10%,transparent)] blur-3xl motion-safe:animate-pulse" />
+      <div className="absolute right-[10%] top-[22%] h-28 w-28 rounded-[2.5rem] bg-[color-mix(in_srgb,var(--accent-secondary)_16%,transparent)] blur-2xl motion-safe:animate-pulse" />
+      <div className="absolute bottom-[14%] left-[20%] h-24 w-24 rounded-full border border-border/60 bg-transparent motion-safe:animate-pulse" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center text-center">
         <p className="type-accent-label text-text-muted">Lost in the void?</p>
@@ -37,18 +37,6 @@ export default function NotFound() {
           </Button>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          50% {
-            transform: translate3d(0, -18px, 0) scale(1.04);
-          }
-        }
-      `}</style>
     </main>
   );
 }

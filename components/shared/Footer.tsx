@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ChevronUp, Github, Linkedin, Mail, X } from "lucide-react";
+import { ChevronUp, Mail, Phone, X } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { NowPlaying } from "./NowPlaying";
 
 type QuickLink = Readonly<{
   label: string;
@@ -21,7 +23,10 @@ const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
+  { label: "External Articles", href: "/blog/external" },
   { label: "Travels", href: "/travels" },
+  { label: "Services", href: "/services" },
+  { label: "Newsletter", href: "/newsletter" },
   { label: "Certificates", href: "/certificates" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -30,51 +35,57 @@ const QUICK_LINKS = [
 const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/Suthankan1", icon: "github" },
   { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" },
-  { label: "Twitter/X", href: "https://x.com/", icon: "x" },
-  { label: "Medium", href: "https://medium.com/", icon: "medium" },
+  { label: "Twitter/X", href: "https://x.com/B_Suthankan", icon: "x" },
+  { label: "Medium", href: "https://medium.com/@suthankanbala2019", icon: "medium" },
 ] as const satisfies readonly SocialLink[];
 
-function MonogramLogo() {
+function ProfileLogo() {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 64 64"
-      className="h-12 w-12 drop-shadow-[0_0_18px_color-mix(in_srgb,var(--accent-primary)_24%,transparent)]"
-      fill="none"
+    <span
+      className="relative inline-flex h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-[color-mix(in_srgb,var(--accent-primary)_55%,var(--border))] bg-bg-tertiary shadow-[0_0_18px_color-mix(in_srgb,var(--accent-primary)_18%,transparent)]"
     >
-      <defs>
-        <linearGradient id="footer-monogram-gradient" x1="8" x2="56" y1="8" y2="56" gradientUnits="userSpaceOnUse">
-          <stop stopColor="var(--accent-primary)" />
-          <stop offset="1" stopColor="var(--accent-secondary)" />
-        </linearGradient>
-      </defs>
-      <circle cx="32" cy="32" r="28" stroke="url(#footer-monogram-gradient)" strokeWidth="3" opacity="0.92" />
-      <path
-        d="M20 42V22c0-1.1.9-2 2-2h5c3.9 0 7 3.1 7 7s-3.1 7-7 7h-2v8m17 0-8-10 7-10"
-        stroke="url(#footer-monogram-gradient)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
+      <Image
+        src="/images/profile/my-photo.jpeg"
+        alt=""
+        fill
+        sizes="48px"
+        className="object-cover"
       />
-    </svg>
+    </span>
   );
 }
 
 function MediumIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-      <path d="M4.5 6.5c0-.4.2-.8.5-.9L6.7 5l5.4 12.1L18.5 5l1.7.6c.3.1.5.5.5.9v10.8c0 .4-.2.8-.5.9l-1.6.6V8.6l-5 11.2c-.2.4-.7.4-.9 0L8 8.6v8.2l1.6.6c.3.1.5.5.5.9s-.2.8-.5.9l-1.7.6-1.7-.6a1 1 0 0 1-.5-.9V6.5Z" />
+      <path d="M5.38 6.13C2.41 6.13 0 8.76 0 12s2.41 5.87 5.38 5.87 5.38-2.63 5.38-5.87-2.41-5.87-5.38-5.87Zm8.56.34c-1.5 0-2.71 2.48-2.71 5.53s1.21 5.53 2.71 5.53 2.71-2.48 2.71-5.53-1.21-5.53-2.71-5.53Zm6.09.58c-.77 0-1.4 2.22-1.4 4.95s.63 4.95 1.4 4.95 1.4-2.22 1.4-4.95-.63-4.95-1.4-4.95Z" />
+    </svg>
+  );
+}
+
+function GitHubIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+      <path d="M12 .5a12 12 0 0 0-3.79 23.38c.6.1.82-.26.82-.58v-2.2c-3.34.72-4.04-1.61-4.04-1.61a3.18 3.18 0 0 0-1.34-1.75c-1.1-.75.08-.73.08-.73a2.51 2.51 0 0 1 1.84 1.23 2.56 2.56 0 0 0 3.5 1 2.56 2.56 0 0 1 .76-1.61c-2.66-.3-5.47-1.33-5.47-5.9a4.62 4.62 0 0 1 1.23-3.2 4.3 4.3 0 0 1 .12-3.15s1-.32 3.3 1.22a11.4 11.4 0 0 1 6 0c2.3-1.54 3.3-1.22 3.3-1.22a4.3 4.3 0 0 1 .12 3.15 4.6 4.6 0 0 1 1.22 3.2c0 4.58-2.8 5.6-5.48 5.9a2.86 2.86 0 0 1 .82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z" />
+    </svg>
+  );
+}
+
+function LinkedInIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.84v1.64h.05c.54-1.02 1.85-2.09 3.81-2.09 4.08 0 4.83 2.68 4.83 6.16V21h-4v-5.62c0-1.34-.02-3.07-1.87-3.07-1.88 0-2.17 1.46-2.17 2.97V21h-4V9Z" />
     </svg>
   );
 }
 
 function SocialIcon({ icon }: { icon: SocialLink["icon"] }) {
   if (icon === "github") {
-    return <Github className="h-4 w-4" />;
+    return <GitHubIcon />;
   }
 
   if (icon === "linkedin") {
-    return <Linkedin className="h-4 w-4" />;
+    return <LinkedInIcon />;
   }
 
   if (icon === "x") {
@@ -116,10 +127,10 @@ export function Footer() {
           <div className="grid gap-12 py-10 lg:grid-cols-[1.15fr_0.95fr_0.9fr] lg:gap-8 lg:py-12">
             <div className="space-y-6">
               <div className="flex items-center gap-4">
-                <MonogramLogo />
+                <ProfileLogo />
                 <p className="max-w-sm text-sm leading-6 text-text-secondary">
-                  Suthankan is building a crafted portfolio that blends strong engineering with
-                  editorial storytelling and travel depth.
+                  I build full-stack products with a Java and Spring Boot backbone, document what
+                  I learn through writing, and keep improving through real projects.
                 </p>
               </div>
 
@@ -163,17 +174,27 @@ export function Footer() {
               </div>
 
               <a
-                href="mailto:hello@suthankan.dev"
+                href="mailto:Suthankanbala2019@gmail.com"
                 className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
               >
                 <Mail className="h-4 w-4" />
-                hello@suthankan.dev
+                Suthankanbala2019@gmail.com
+              </a>
+
+              <a
+                href="tel:+94719386979"
+                className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                <Phone className="h-4 w-4" />
+                +94 71 938 6979
               </a>
 
               <div className="space-y-1 text-sm text-text-secondary">
                 <p>UTC+5:30</p>
                 <p>Sri Lanka</p>
               </div>
+
+              <NowPlaying />
             </div>
           </div>
 

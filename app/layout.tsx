@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
+import { allPosts } from "contentlayer/generated";
 import { bodyFont, displayFont, monoFont } from "../lib/fonts";
 import { Navbar } from "../components/shared/Navbar";
 import { Footer } from "../components/shared/Footer";
+import { CommandPalette } from "../components/shared/CommandPalette";
+import { PageTransition } from "../components/shared/PageTransition";
+import { CursorGlow } from "../components/ui/CursorGlow";
 import { Providers } from "./providers";
 import { Analytics } from "@vercel/analytics/react";
+import { projects } from "../lib/data/projects";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
@@ -15,6 +20,13 @@ export const metadata: Metadata = {
   },
   description:
     "Suthankan's editorial portfolio for full-stack development, technical storytelling, and travel depth.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
+  },
   openGraph: {
     title: "Suthankan",
     description:
@@ -24,7 +36,11 @@ export const metadata: Metadata = {
     url: "https://suthankan.dev",
     images: [
       {
-        url: "/og-image.png",
+        url: `/og?${new URLSearchParams({
+          title: "Suthankan",
+          description: "Full-stack development, technical writing, projects, and travel stories.",
+          type: "default",
+        }).toString()}`,
         width: 1200,
         height: 630,
         alt: "Suthankan portfolio preview",
@@ -36,7 +52,13 @@ export const metadata: Metadata = {
     title: "Suthankan",
     description:
       "A premium editorial portfolio blending strong engineering, case studies, and personal depth.",
-    images: ["/og-image.png"],
+    images: [
+      `/og?${new URLSearchParams({
+        title: "Suthankan",
+        description: "Full-stack development, technical writing, projects, and travel stories.",
+        type: "default",
+      }).toString()}`,
+    ],
   },
 };
 
@@ -51,6 +73,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const paletteProjects = projects.map((project) => ({
+    slug: project.slug,
+    title: project.title,
+    category: project.category,
+  }));
+  const palettePosts = allPosts
+    .filter((post) => post.published)
+    .map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      date: post.date,
+      category: post.category,
+    }));
+
   return (
     <html
       lang="en"
@@ -59,8 +95,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
+          <CursorGlow />
           <Navbar />
-          <div className="flex-1 pt-20">{children}</div>
+          <CommandPalette projects={paletteProjects} posts={palettePosts} />
+          <div className="flex-1 pt-20">
+            <PageTransition>{children}</PageTransition>
+          </div>
           <Footer />
         </Providers>
         <Analytics />
