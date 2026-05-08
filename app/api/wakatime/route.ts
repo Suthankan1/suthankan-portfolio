@@ -93,19 +93,16 @@ export async function GET() {
     });
   } catch (error) {
     console.error("WakaTime route error:", error);
-    return json(
-      {
-        configured: true,
-        week: {
-          total: "0 hrs",
-          languages: [],
-        },
-        month: {
-          total: "0 hrs",
-        },
-        error: "Unable to load WakaTime stats.",
+    return json({
+      configured: false,
+      week: {
+        total: "0 hrs",
+        languages: [],
       },
-      { status: 500 },
-    );
+      month: {
+        total: "0 hrs",
+      },
+      error: "Unable to load WakaTime stats.",
+    });
   }
 }

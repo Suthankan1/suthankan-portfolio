@@ -23,6 +23,7 @@ import { Button } from "../../ui/Button";
 import { Tag } from "../../ui/Tag";
 import { BLUR_DATA_URL } from "../../../lib/images";
 import { cn } from "../../../lib/utils";
+import GitHubContributions from "./GitHubContributions";
 import { WakaTimeStats } from "./WakaTimeStats";
 
 const TIMELINE = [
@@ -319,8 +320,12 @@ export function AboutPageContent() {
         </div>
       </SectionReveal>
 
-      <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12">
+      <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
         <WakaTimeStats />
+      </SectionReveal>
+
+      <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        <GitHubContributions />
       </SectionReveal>
 
       <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
