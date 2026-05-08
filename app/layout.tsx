@@ -68,6 +68,16 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 };
 
+function Links() {
+  return (
+    <>
+      <link rel="me" href="https://github.com/Suthankan1" />
+      <link rel="me" href="https://www.linkedin.com/in/suthankan/" />
+      <link rel="me" href="https://x.com/B_Suthankan" />
+    </>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -93,6 +103,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${bodyFont.variable} ${displayFont.variable} ${monoFont.variable} h-full antialiased`}
     >
+      <head>
+        <Links />
+      </head>
       <body className="min-h-full flex flex-col">
         <Providers>
           <CursorGlow />
