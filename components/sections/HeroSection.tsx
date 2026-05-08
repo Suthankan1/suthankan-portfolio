@@ -17,7 +17,7 @@ const ROLES = [
 
 const SOCIAL_LINKS = [
   { href: "https://github.com/Suthankan1", label: "GitHub", icon: "github" },
-  { href: "https://www.linkedin.com/", label: "LinkedIn", icon: "linkedin" },
+  { href: "https://www.linkedin.com/in/suthankan/", label: "LinkedIn", icon: "linkedin" },
   { href: "https://x.com/B_Suthankan", label: "Twitter/X", icon: "x" },
   { href: "https://medium.com/@suthankanbala2019", label: "Medium", icon: "medium" },
 ] as const;

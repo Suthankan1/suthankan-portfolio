@@ -230,7 +230,7 @@ function AuthorBioCard() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-[color-mix(in_srgb,var(--accent-primary)_34%,var(--border))] bg-bg-tertiary">
           <Image
-            src="/images/profile/my-photo.jpeg"
+            src="/images/profile/my-photo.webp"
             alt="Portrait of Suthankan"
             fill
             sizes="80px"

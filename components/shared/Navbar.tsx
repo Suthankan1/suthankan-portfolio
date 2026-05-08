@@ -35,7 +35,7 @@ function ProfileLogo({ size = "md" }: { size?: "md" | "lg" }) {
       )}
     >
       <Image
-        src="/images/profile/my-photo.jpeg"
+        src="/images/profile/my-photo.webp"
         alt=""
         fill
         priority={size === "md"}

@@ -44,7 +44,7 @@ const SKILL_BLOCKS: readonly SkillBlock[] = [
   {
     title: "AI / ML",
     icon: Brain,
-    skills: ["Python", "TensorFlow", "Hugging Face", "Prompt Engineering"],
+    skills: ["Python", "Pandas", "Data Analysis"],
     className: "lg:col-span-3 lg:row-span-1",
   },
   {
