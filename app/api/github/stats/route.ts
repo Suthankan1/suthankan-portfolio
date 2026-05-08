@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME ?? "Suthankan1";
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const CACHE_HEADERS = {
   "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
 };
@@ -27,6 +28,7 @@ const githubFetchOptions = {
   headers: {
     Accept: "application/vnd.github+json",
     "User-Agent": "suthankan-portfolio",
+    ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
   },
   next: {
     revalidate: 60 * 60,
