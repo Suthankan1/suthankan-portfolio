@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rateLimitRequest } from "../../../../lib/rate-limit";
 import { getCounter, incrementCounter, viewsKey } from "../../../../lib/redis";
 
 export const runtime = "nodejs";
@@ -35,6 +36,12 @@ export async function GET(_request: NextRequest, context: RouteContext) {
 }
 
 export async function POST(request: NextRequest, context: RouteContext) {
+  const rateLimitResponse = await rateLimitRequest(request, "views");
+
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   const slug = await getSlug(context);
 
   if (!slug) {

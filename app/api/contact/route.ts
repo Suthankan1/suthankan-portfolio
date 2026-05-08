@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { z } from "zod";
+import { rateLimitRequest } from "../../../lib/rate-limit";
 
 const subjectOptions = [
   "Job Opportunity",
@@ -30,6 +31,12 @@ function escapeHtml(value: string) {
 }
 
 export async function POST(request: Request) {
+  const rateLimitResponse = await rateLimitRequest(request, "contact");
+
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   try {
     let data: unknown;
 
