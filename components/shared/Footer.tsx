@@ -44,7 +44,7 @@ function ProfileLogo() {
       className="relative inline-flex h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-[color-mix(in_srgb,var(--accent-primary)_55%,var(--border))] bg-bg-tertiary shadow-[0_0_18px_color-mix(in_srgb,var(--accent-primary)_18%,transparent)]"
     >
       <Image
-        src="/images/profile/my-photo.jpeg"
+        src="/images/profile/my-photo.webp"
         alt=""
         fill
         sizes="48px"

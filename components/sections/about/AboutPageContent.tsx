@@ -173,7 +173,7 @@ export function AboutPageContent() {
             <div className="relative aspect-square overflow-hidden rounded-4xl border border-border bg-bg-tertiary p-2">
               <div className="absolute inset-2 rounded-[1.6rem] border-2 border-accent-primary/70" />
               <Image
-                src="/images/profile/my-photo.jpeg"
+                src="/images/profile/my-photo.webp"
                 alt="Portrait of Suthankan"
                 fill
                 priority
