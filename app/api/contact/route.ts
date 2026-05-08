@@ -154,7 +154,7 @@ export async function POST(request: Request) {
 
     const resend = new Resend(resendApiKey);
 
-    await resend.emails.send({
+    const { error: resendError } = await resend.emails.send({
       from: fromEmail,
       to: toEmail,
       replyTo: email,
@@ -162,6 +162,17 @@ export async function POST(request: Request) {
       html,
       text,
     });
+
+    if (resendError) {
+      console.error("Resend error:", resendError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unable to send message right now. Please try again shortly.",
+        },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

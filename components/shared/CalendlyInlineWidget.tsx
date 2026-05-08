@@ -8,7 +8,7 @@ type CalendlyInlineWidgetProps = {
   className?: string;
 };
 
-export const CALENDLY_URL = "https://calendly.com/suthankanbala2019/30min";
+export const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "";
 
 export function CalendlyInlineWidget({ url = CALENDLY_URL, className }: CalendlyInlineWidgetProps) {
   return (
