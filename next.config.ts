@@ -6,6 +6,18 @@ const withBundleAnalyzer = createBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://assets.calendly.com https://giscus.app",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://images.unsplash.com https://res.cloudinary.com",
+  "font-src 'self'",
+  "connect-src 'self' https://api.github.com https://wakatime.com https://upstash.io https://giscus.app",
+  "frame-src https://calendly.com https://giscus.app",
+  "object-src 'none'",
+  "base-uri 'self'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -39,6 +51,10 @@ const nextConfig: NextConfig = {
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), unload=()",
+          },
+          {
+            key: "Content-Security-Policy",
+            value: contentSecurityPolicy,
           },
         ],
       },
