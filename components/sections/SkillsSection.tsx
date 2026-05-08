@@ -56,7 +56,7 @@ const SKILL_BLOCKS: readonly SkillBlock[] = [
   {
     title: "Tools & Design",
     icon: Wrench,
-    skills: ["Figma", "Git", "VS Code", "Postman", "Linux"],
+    skills: ["Figma", "Git", "VS Code", "Postman", "Linux", "Networking", "CCNA (in progress)"],
     className: "lg:col-span-12 lg:row-span-1",
   },
 ];

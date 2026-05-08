@@ -300,7 +300,9 @@ export function AboutPageContent() {
           >
             <Lightbulb className="h-5 w-5 text-accent-primary" />
             <h3 className="mt-3 font-display text-2xl font-semibold">Learning</h3>
-            <p className="mt-2 text-sm leading-7 text-text-secondary">Deepening my backend and infrastructure skills with Go and Kubernetes.</p>
+            <p className="mt-2 text-sm leading-7 text-text-secondary">
+              Studying CCNA part-time while strengthening backend fundamentals, networks, and system design.
+            </p>
           </motion.article>
 
           <motion.article
@@ -337,7 +339,7 @@ export function AboutPageContent() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {["Data Structures", "Software Engineering", "Database Systems", "Distributed Systems", "Human-Computer Interaction", "Cloud Computing"].map((course) => (
+            {["Data Structures", "Software Engineering", "Database Systems", "Computer Networks", "CCNA Foundations", "Cloud Computing"].map((course) => (
               <Tag key={course}>{course}</Tag>
             ))}
           </div>

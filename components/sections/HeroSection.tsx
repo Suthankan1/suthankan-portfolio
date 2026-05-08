@@ -10,7 +10,6 @@ import { cn } from "../../lib/utils";
 
 const ROLES = [
   "Full-Stack Developer",
-  "NexaFlow Builder",
   "Technical Writer",
   "World Traveller",
 ] as const;
