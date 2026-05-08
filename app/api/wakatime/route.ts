@@ -38,11 +38,13 @@ function json(payload: WakaTimePayload, init?: ResponseInit) {
   });
 }
 
-async function fetchStats(username: string, range: "last_7_days" | "last_30_days", apiKey: string) {
-  const response = await fetch(`https://wakatime.com/api/v1/users/${username}/stats/${range}`, {
-    headers: {
-      Authorization: `Basic ${btoa(apiKey)}`,
-    },
+async function fetchStats(username: string, range: "last_7_days" | "last_30_days", apiKey?: string) {
+  const response = await fetch(`https://wakatime.com/api/v1/users/${username}/stats/${range}?is_including_today=true`, {
+    headers: apiKey
+      ? {
+          Authorization: `Basic ${btoa(apiKey)}`,
+        }
+      : undefined,
     next: {
       revalidate: 3600,
     },
@@ -59,7 +61,7 @@ export async function GET() {
   const username = process.env.WAKATIME_USERNAME;
   const apiKey = process.env.WAKATIME_API_KEY;
 
-  if (!username || !apiKey) {
+  if (!username) {
     return json({
       configured: false,
       week: {
@@ -69,7 +71,7 @@ export async function GET() {
       month: {
         total: "0 hrs",
       },
-      error: "WakaTime is not configured.",
+      error: "WakaTime username is not configured.",
     });
   }
 
