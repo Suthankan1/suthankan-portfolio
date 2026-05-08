@@ -5,7 +5,7 @@ import { createSiteMetadata } from "../../../lib/seo";
 export const metadata: Metadata = createSiteMetadata({
   title: "Featured projects",
   description:
-    "A portfolio of web apps, mobile applications, open source libraries, and academic projects. Including NexaFlow, my flagship AI-powered workflow automation platform.",
+    "A portfolio of academic and full-stack web projects, led by my flagship Project Management App.",
   path: "/projects",
 });
 
