@@ -23,6 +23,7 @@ import { Button } from "../../ui/Button";
 import { Tag } from "../../ui/Tag";
 import { BLUR_DATA_URL } from "../../../lib/images";
 import { cn } from "../../../lib/utils";
+import GitHubContributions from "./GitHubContributions";
 import { WakaTimeStats } from "./WakaTimeStats";
 
 const TIMELINE = [
@@ -300,7 +301,9 @@ export function AboutPageContent() {
           >
             <Lightbulb className="h-5 w-5 text-accent-primary" />
             <h3 className="mt-3 font-display text-2xl font-semibold">Learning</h3>
-            <p className="mt-2 text-sm leading-7 text-text-secondary">Deepening my backend and infrastructure skills with Go and Kubernetes.</p>
+            <p className="mt-2 text-sm leading-7 text-text-secondary">
+              Studying CCNA part-time while strengthening backend fundamentals, networks, and system design.
+            </p>
           </motion.article>
 
           <motion.article
@@ -317,8 +320,12 @@ export function AboutPageContent() {
         </div>
       </SectionReveal>
 
-      <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12">
+      <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
         <WakaTimeStats />
+      </SectionReveal>
+
+      <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        <GitHubContributions />
       </SectionReveal>
 
       <SectionReveal className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
@@ -337,7 +344,7 @@ export function AboutPageContent() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {["Data Structures", "Software Engineering", "Database Systems", "Distributed Systems", "Human-Computer Interaction", "Cloud Computing"].map((course) => (
+            {["Data Structures", "Software Engineering", "Database Systems", "Computer Networks", "CCNA Foundations", "Cloud Computing"].map((course) => (
               <Tag key={course}>{course}</Tag>
             ))}
           </div>
