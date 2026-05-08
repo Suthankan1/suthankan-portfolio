@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Suthankan monogram favicon</title>
+  <desc id="desc">A charcoal editorial monogram icon with an indigo frame, white S, and volt green signal dot.</desc>
+  <rect width="512" height="512" rx="116" fill="#0D0D0D"/>
+  <path d="M82 353V159c0-43 34-77 77-77h194c43 0 77 34 77 77v194c0 43-34 77-77 77H159c-43 0-77-34-77-77Z" fill="#141414"/>
+  <path d="M105 338V174c0-38 31-69 69-69h164c38 0 69 31 69 69v164c0 38-31 69-69 69H174c-38 0-69-31-69-69Z" fill="none" stroke="#6C63FF" stroke-width="22"/>
+  <path d="M333 176c-22-19-48-28-80-28-49 0-84 25-84 62 0 39 31 54 86 66 41 9 58 17 58 38 0 20-20 33-53 33-34 0-63-12-89-36l-34 41c31 30 72 45 121 45 55 0 95-28 95-70 0-41-28-60-89-74-40-9-55-16-55-35 0-18 17-29 45-29 25 0 46 8 66 25l33-38Z" fill="#F7F7F5"/>
+  <circle cx="370" cy="142" r="28" fill="#B9FF66"/>
+  <path d="M125 406 406 125" stroke="#6C63FF" stroke-width="10" stroke-linecap="round" opacity=".45"/>
+</svg>
