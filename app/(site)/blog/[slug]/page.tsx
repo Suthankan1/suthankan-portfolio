@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         readingTime: post.readingTime,
         coverImage: post.coverImage,
         excerpt: post.excerpt,
-        bodyCode: post.body.code,
+        bodyRaw: post.body.raw,
       }}
       relatedPosts={relatedPosts}
       toc={extractTocHeadings(post.body.raw)}
