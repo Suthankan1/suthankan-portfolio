@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { allPosts } from "contentlayer/generated";
 import { HeroSection } from "../components/sections/HeroSection";
 import { AboutTeaserSection } from "../components/sections/AboutTeaserSection";
-import { BlogTeaserSection } from "../components/sections/BlogTeaserSection";
+import {
+  BlogTeaserSection,
+  type BlogTeaserPost,
+} from "../components/sections/BlogTeaserSection";
 import { SkillsSection } from "../components/sections/SkillsSection";
 import { CTASection } from "../components/sections/CTASection";
 
@@ -74,13 +78,31 @@ export const metadata: Metadata = {
   },
 };
 
+function getLatestBlogPosts(): BlogTeaserPost[] {
+  return allPosts
+    .filter((post) => post.published)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3)
+    .map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      date: post.date,
+      category: post.category,
+      readingTime: post.readingTime,
+      coverImage: post.coverImage,
+      excerpt: post.excerpt,
+    }));
+}
+
 export default function Home() {
+  const latestBlogPosts = getLatestBlogPosts();
+
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary">
       <HeroSection />
       <AboutTeaserSection />
       <FeaturedProjectsSection />
-      <BlogTeaserSection />
+      <BlogTeaserSection posts={latestBlogPosts} />
       <SkillsSection />
       <TravelTeaserSection />
       <CTASection />
