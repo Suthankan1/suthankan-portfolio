@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMDXComponent } from "next-contentlayer2/hooks";
 import { motion, useReducedMotion, useScroll } from "framer-motion";
 import { Copy, Mail, MessageSquare, Share2, X } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -11,11 +10,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GithubIcon } from "../icons/GithubIcon";
 import { LinkedinIcon } from "../icons/LinkedinIcon";
-import { mdxComponents } from "./MDXComponents";
+import { CodeBlock } from "./MDXComponents";
 import { LikeButton } from "./LikeButton";
 import { ViewCounter } from "./ViewCounter";
 import type { TocHeading } from "../../lib/blog";
-import { formatPostDate } from "../../lib/blog";
+import { formatPostDate, slugifyHeading } from "../../lib/blog";
 import { BLUR_DATA_URL } from "../../lib/images";
 import { cn } from "../../lib/utils";
 
@@ -28,7 +27,7 @@ type BlogPost = {
   readingTime: number;
   coverImage: string;
   excerpt: string;
-  bodyCode: string;
+  bodyRaw: string;
 };
 
 type RelatedPost = {
@@ -429,8 +428,185 @@ function RelatedPosts({ posts }: { posts: RelatedPost[] }) {
   );
 }
 
+type MarkdownBlock =
+  | { type: "heading"; level: 2 | 3; text: string }
+  | { type: "paragraph"; text: string }
+  | { type: "blockquote"; text: string }
+  | { type: "list"; ordered: boolean; items: string[] }
+  | { type: "code"; language: string; code: string };
+
+function parseMarkdownBlocks(raw: string): MarkdownBlock[] {
+  const lines = raw.replace(/\r\n/g, "\n").split("\n");
+  const blocks: MarkdownBlock[] = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    const current = lines[index];
+    const trimmed = current.trim();
+
+    if (!trimmed) {
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("```")) {
+      const language = trimmed.slice(3).trim() || "text";
+      const codeLines: string[] = [];
+      index += 1;
+
+      while (index < lines.length && !lines[index].trim().startsWith("```")) {
+        codeLines.push(lines[index]);
+        index += 1;
+      }
+
+      blocks.push({ type: "code", language, code: codeLines.join("\n") });
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("### ")) {
+      blocks.push({ type: "heading", level: 3, text: trimmed.slice(4).trim() });
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("## ")) {
+      blocks.push({ type: "heading", level: 2, text: trimmed.slice(3).trim() });
+      index += 1;
+      continue;
+    }
+
+    if (trimmed.startsWith("> ")) {
+      const quoteLines: string[] = [];
+
+      while (index < lines.length && lines[index].trim().startsWith("> ")) {
+        quoteLines.push(lines[index].trim().slice(2).trim());
+        index += 1;
+      }
+
+      blocks.push({ type: "blockquote", text: quoteLines.join(" ") });
+      continue;
+    }
+
+    if (/^[-*]\s+/.test(trimmed)) {
+      const items: string[] = [];
+
+      while (index < lines.length && /^[-*]\s+/.test(lines[index].trim())) {
+        items.push(lines[index].trim().replace(/^[-*]\s+/, ""));
+        index += 1;
+      }
+
+      blocks.push({ type: "list", ordered: false, items });
+      continue;
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const items: string[] = [];
+
+      while (index < lines.length && /^\d+\.\s+/.test(lines[index].trim())) {
+        items.push(lines[index].trim().replace(/^\d+\.\s+/, ""));
+        index += 1;
+      }
+
+      blocks.push({ type: "list", ordered: true, items });
+      continue;
+    }
+
+    const paragraphLines: string[] = [];
+
+    while (index < lines.length) {
+      const paragraphLine = lines[index].trim();
+
+      if (
+        !paragraphLine ||
+        paragraphLine.startsWith("## ") ||
+        paragraphLine.startsWith("### ") ||
+        paragraphLine.startsWith("> ") ||
+        paragraphLine.startsWith("```") ||
+        /^[-*]\s+/.test(paragraphLine) ||
+        /^\d+\.\s+/.test(paragraphLine)
+      ) {
+        break;
+      }
+
+      paragraphLines.push(paragraphLine);
+      index += 1;
+    }
+
+    blocks.push({ type: "paragraph", text: paragraphLines.join(" ") });
+  }
+
+  return blocks;
+}
+
+function MarkdownBody({ raw }: { raw: string }) {
+  const blocks = parseMarkdownBlocks(raw);
+
+  return (
+    <div className="prose-none space-y-6">
+      {blocks.map((block, index) => {
+        if (block.type === "heading") {
+          const id = slugifyHeading(block.text);
+          const Heading = block.level === 2 ? "h2" : "h3";
+          const className =
+            block.level === 2
+              ? "scroll-mt-28 pt-8 font-display text-4xl font-semibold tracking-[-0.04em]"
+              : "scroll-mt-28 pt-5 font-display text-2xl font-semibold tracking-[-0.03em]";
+
+          return (
+            <Heading key={`${block.type}-${id}-${index}`} id={id} className={className}>
+              {block.text}
+            </Heading>
+          );
+        }
+
+        if (block.type === "blockquote") {
+          return (
+            <blockquote
+              key={`${block.type}-${index}`}
+              className="my-8 border-l-4 border-[var(--accent-primary)] bg-bg-secondary px-5 py-4 font-display text-2xl leading-snug tracking-[-0.03em] text-text-primary"
+            >
+              {block.text}
+            </blockquote>
+          );
+        }
+
+        if (block.type === "list") {
+          const List = block.ordered ? "ol" : "ul";
+          const listClassName = block.ordered
+            ? "my-6 list-decimal space-y-3 pl-6 text-lg leading-8 text-text-secondary marker:text-accent-primary"
+            : "my-6 list-disc space-y-3 pl-6 text-lg leading-8 text-text-secondary marker:text-accent-primary";
+
+          return (
+            <List key={`${block.type}-${index}`} className={listClassName}>
+              {block.items.map((item) => (
+                <li key={item} className="pl-1">
+                  {item}
+                </li>
+              ))}
+            </List>
+          );
+        }
+
+        if (block.type === "code") {
+          return (
+            <CodeBlock key={`${block.type}-${index}`} className={`language-${block.language}`}>
+              {block.code}
+            </CodeBlock>
+          );
+        }
+
+        return (
+          <p key={`${block.type}-${index}`} className="text-lg leading-8 text-text-secondary">
+            {block.text}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 export function BlogPostContent({ post, relatedPosts, toc }: BlogPostContentProps) {
-  const MDXContent = useMDXComponent(post.bodyCode);
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -487,9 +663,7 @@ export function BlogPostContent({ post, relatedPosts, toc }: BlogPostContentProp
           <TableOfContents mode="desktop" toc={toc} />
           <div className="min-w-0">
             <TableOfContents mode="mobile" toc={toc} />
-            <div className="prose-none space-y-6">
-              <MDXContent components={mdxComponents} />
-            </div>
+            <MarkdownBody raw={post.bodyRaw} />
             <AuthorBioCard />
             <NewsletterCta />
             <GiscusComments />
