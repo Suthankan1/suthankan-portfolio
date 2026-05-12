@@ -51,7 +51,7 @@ function FeaturedPostHero({ post }: { post: BlogIndexPost }) {
       initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
       animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.55 }}
-      className="group relative min-h-[520px] overflow-hidden rounded-[var(--radius-lg)] border border-[color-mix(in_srgb,var(--accent-primary)_24%,var(--border))] bg-bg-tertiary shadow-[var(--shadow-lg)]"
+      className="group relative min-h-180 overflow-hidden rounded-[var(--radius-lg)] border border-[color-mix(in_srgb,var(--accent-primary)_24%,var(--border))] bg-bg-tertiary shadow-[var(--shadow-lg)]"
     >
       <Image
         src={post.coverImage}
