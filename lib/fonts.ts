@@ -5,7 +5,7 @@ export const bodyFont = Inter({
   subsets: ["latin"],
   weight: ["400", "600"],
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 export const displayFont = Syne({
@@ -13,7 +13,7 @@ export const displayFont = Syne({
   subsets: ["latin"],
   weight: ["700"],
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 export const monoFont = Geist_Mono({
