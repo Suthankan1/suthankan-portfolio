@@ -7,6 +7,7 @@ const BLOG_CATEGORIES = [
   "Full-Stack",
   "Travel",
   "Personal Notes",
+  "Productivity",
 ] as const;
 
 function calculateReadingTime(rawContent: string): number {

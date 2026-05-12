@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll } from "framer-motion";
@@ -539,6 +539,46 @@ function parseMarkdownBlocks(raw: string): MarkdownBlock[] {
   return blocks;
 }
 
+function renderInline(text: string): React.ReactNode {
+  const parts: React.ReactNode[] = [];
+  const re = /(\*\*(.+?)\*\*|`([^`]+)`|\[([^\]]+)\]\(([^)]+)\))/g;
+  let cursor = 0;
+  let m: RegExpExecArray | null;
+
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > cursor) {
+      parts.push(text.slice(cursor, m.index));
+    }
+    const full = m[0];
+    if (full.startsWith("**")) {
+      parts.push(
+        <strong key={m.index} className="font-semibold text-text-primary">
+          {m[2]}
+        </strong>,
+      );
+    } else if (full.startsWith("`")) {
+      parts.push(
+        <code key={m.index} className="rounded bg-bg-tertiary px-1.5 py-0.5 font-mono text-sm text-accent-primary">
+          {m[3]}
+        </code>,
+      );
+    } else if (full.startsWith("[")) {
+      parts.push(
+        <a key={m.index} href={m[5]} target="_blank" rel="noopener noreferrer" className="text-accent-primary underline underline-offset-2 hover:opacity-80">
+          {m[4]}
+        </a>,
+      );
+    }
+    cursor = re.lastIndex;
+  }
+
+  if (cursor < text.length) {
+    parts.push(text.slice(cursor));
+  }
+
+  return parts.length === 0 ? text : <>{parts}</>;
+}
+
 function MarkdownBody({ raw }: { raw: string }) {
   const blocks = parseMarkdownBlocks(raw);
 
@@ -566,7 +606,7 @@ function MarkdownBody({ raw }: { raw: string }) {
               key={`${block.type}-${index}`}
               className="my-8 border-l-4 border-[var(--accent-primary)] bg-bg-secondary px-5 py-4 font-display text-2xl leading-snug tracking-[-0.03em] text-text-primary"
             >
-              {block.text}
+              {renderInline(block.text)}
             </blockquote>
           );
         }
@@ -581,7 +621,7 @@ function MarkdownBody({ raw }: { raw: string }) {
             <List key={`${block.type}-${index}`} className={listClassName}>
               {block.items.map((item) => (
                 <li key={item} className="pl-1">
-                  {item}
+                  {renderInline(item)}
                 </li>
               ))}
             </List>
@@ -598,7 +638,7 @@ function MarkdownBody({ raw }: { raw: string }) {
 
         return (
           <p key={`${block.type}-${index}`} className="text-lg leading-8 text-text-secondary">
-            {block.text}
+            {renderInline(block.text)}
           </p>
         );
       })}

@@ -30,6 +30,7 @@ const CATEGORIES = [
   "Full-Stack",
   "Travel",
   "Personal Notes",
+  "Productivity",
 ] as const;
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
