@@ -334,14 +334,34 @@ function NewsletterCta() {
 
 function GiscusComments() {
   const configured = isGiscusConfigured();
+  const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    if (!configured) {
-      return;
-    }
+    setMounted(true);
+    setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
+
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!configured || !mounted) return;
+
+    const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    const theme = isLocalhost
+      ? (isDark ? "noborder_dark" : "noborder_light")
+      : `${window.location.origin}/giscus-theme-${isDark ? "dark" : "light"}.css`;
 
     const container = document.getElementById("giscus-comments");
-    if (!container || container.childElementCount > 0) {
+    if (!container) return;
+
+    if (container.childElementCount > 0) {
+      const iframe = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
+      iframe?.contentWindow?.postMessage({ giscus: { setConfig: { theme } } }, "https://giscus.app");
       return;
     }
 
@@ -358,24 +378,38 @@ function GiscusComments() {
     script.setAttribute("data-reactions-enabled", GISCUS_CONFIG.reactionsEnabled);
     script.setAttribute("data-emit-metadata", GISCUS_CONFIG.emitMetadata);
     script.setAttribute("data-input-position", GISCUS_CONFIG.inputPosition);
-    script.setAttribute("data-theme", GISCUS_CONFIG.theme);
+    script.setAttribute("data-theme", theme);
     script.setAttribute("data-lang", GISCUS_CONFIG.lang);
-
     container.appendChild(script);
-  }, [configured]);
+  }, [configured, mounted, isDark]);
 
   return (
     <section className="mt-14">
-      <div className="mb-6 flex items-center gap-3">
-        <MessageSquare className="h-5 w-5 text-accent-primary" />
-        <h2 className="font-display text-3xl font-semibold tracking-[-0.03em]">Discussion</h2>
+      <div className="mb-7 flex items-center gap-4 border-b border-border pb-6">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent-primary)_12%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--accent-primary)_20%,transparent)]">
+          <MessageSquare className="h-4.5 w-4.5 text-accent-primary" />
+        </div>
+        <div>
+          <h2 className="font-display text-2xl font-semibold tracking-[-0.03em]">Discussion</h2>
+          <p className="mt-0.5 text-xs font-medium text-text-muted">
+            Sign in with GitHub to leave a comment or reaction
+          </p>
+        </div>
       </div>
+
       {configured ? (
         <div id="giscus-comments" className="min-h-40" />
       ) : (
-        <div className="rounded-lg border border-border bg-bg-secondary p-5 text-sm leading-7 text-text-secondary">
-          Comments are ready to enable once Giscus is installed on the GitHub repository and
-          the public Giscus environment variables are filled in.
+        <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-[color-mix(in_srgb,var(--accent-primary)_28%,var(--border))] bg-[color-mix(in_srgb,var(--accent-primary)_4%,var(--bg-secondary))] px-8 py-14 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent-primary)_12%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--accent-primary)_20%,transparent)]">
+            <MessageSquare className="h-5 w-5 text-accent-primary" />
+          </div>
+          <div>
+            <p className="font-semibold text-text-primary">Discussions not yet enabled</p>
+            <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-text-muted">
+              Install the Giscus app on the GitHub repo and set the four environment variables to activate comments.
+            </p>
+          </div>
         </div>
       )}
     </section>
