@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { allPosts } from "contentlayer/generated";
 import { HeroSection } from "../components/sections/HeroSection";
 import { AboutTeaserSection } from "../components/sections/AboutTeaserSection";
@@ -9,20 +8,7 @@ import {
 } from "../components/sections/BlogTeaserSection";
 import { SkillsSection } from "../components/sections/SkillsSection";
 import { CTASection } from "../components/sections/CTASection";
-
-const FeaturedProjectsSection = dynamic(
-  () =>
-    import("../components/sections/FeaturedProjectsSection").then(
-      (module) => module.FeaturedProjectsSection,
-    ),
-  {
-    loading: () => (
-      <section className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-        <div className="h-52 animate-pulse rounded-xl border border-border bg-bg-secondary" />
-      </section>
-    ),
-  },
-);
+import { FeaturedProjectsSection } from "../components/sections/FeaturedProjectsSection";
 
 export const metadata: Metadata = {
   title: "Suthankan — Full-Stack Developer & IT Professional",

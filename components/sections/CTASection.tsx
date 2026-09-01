@@ -1,36 +1,31 @@
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
-import { SectionWrapper } from "../ui/SectionWrapper";
 import { Button } from "../ui/Button";
-import { AnimatedText } from "../ui/AnimatedText";
-
-const AVAILABILITY_STATUS = "Currently open to internship & freelance opportunities";
+import { StatusLabel } from "../ui/StatusLabel";
 
 export function CTASection() {
   return (
-    <SectionWrapper className="bg-bg-secondary py-0">
-      <div className="rounded-xl border border-border bg-bg-secondary px-6 py-14 text-center sm:px-8 lg:px-12 lg:py-20">
-        <div className="mx-auto max-w-3xl space-y-6">
-          <h2 className="text-balance font-display text-4xl font-extrabold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
-            <AnimatedText text="Ready to build something great?" />
-          </h2>
-
-          <div className="inline-flex items-center gap-3 rounded-full border border-[color-mix(in_srgb,var(--accent-secondary)_40%,var(--border))] bg-[color-mix(in_srgb,var(--accent-secondary)_10%,transparent)] px-4 py-2 text-sm text-text-primary">
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent-secondary">
-              <span className="absolute inset-0 rounded-full bg-accent-secondary opacity-60 motion-safe:animate-ping" />
-            </span>
-            <span className="font-medium">{AVAILABILITY_STATUS}</span>
+    <section className="bg-bg-primary">
+      <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 lg:px-12 lg:py-20">
+        <div className="grid gap-8 border-t border-border-strong pt-10 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-3xl">
+            <StatusLabel tone="active">Open to internships and freelance work</StatusLabel>
+            <h2 className="mt-5 text-balance font-display text-4xl font-semibold leading-tight tracking-normal sm:text-5xl">
+              Have a system that needs clearer flow, stronger backend shape, or better product polish?
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-text-secondary">
+              Send the rough context. I will respond with how I would break down the problem, what I need to know, and where I can help.
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Button asChild size="lg" variant="primary">
+          <div className="flex flex-wrap gap-3">
+            <Button asChild size="lg">
               <Link href="/contact">
-                Let's Work Together
+                Contact me
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-
-            <Button asChild size="lg" variant="ghost">
+            <Button asChild size="lg" variant="secondary">
               <a href="/cv.pdf" download>
                 Download CV
                 <Download className="h-4 w-4" />
@@ -39,6 +34,6 @@ export function CTASection() {
           </div>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }
