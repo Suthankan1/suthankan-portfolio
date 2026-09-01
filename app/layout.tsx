@@ -5,8 +5,6 @@ import { bodyFont, displayFont, monoFont } from "../lib/fonts";
 import { Navbar } from "../components/shared/Navbar";
 import { Footer } from "../components/shared/Footer";
 import { CommandPalette } from "../components/shared/CommandPalette";
-import { PageTransition } from "../components/shared/PageTransition";
-import { CursorGlow } from "../components/ui/CursorGlow";
 import { Providers } from "./providers";
 import { Analytics } from "@vercel/analytics/react";
 import { projects } from "../lib/data/projects";
@@ -107,12 +105,14 @@ export default function RootLayout({
         <Links />
       </head>
       <body className="min-h-full flex flex-col">
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
         <Providers>
-          <CursorGlow />
           <Navbar />
           <CommandPalette projects={paletteProjects} posts={palettePosts} />
-          <div className="flex-1 pt-20">
-            <PageTransition>{children}</PageTransition>
+          <div id="main-content" className="flex-1 pt-20" tabIndex={-1}>
+            {children}
           </div>
           <Footer />
         </Providers>

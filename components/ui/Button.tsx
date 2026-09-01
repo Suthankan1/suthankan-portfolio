@@ -1,9 +1,8 @@
 "use client";
 
-import type { ButtonHTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { forwardRef } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { useMagneticHover } from "../../lib/hooks/useMagneticHover";
 import { cn } from "../../lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
@@ -67,10 +66,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     children,
     disabled,
     isLoading = false,
-    onMouseMove,
-    onMouseLeave,
     size = "md",
-    style,
     variant = "primary",
     type = "button",
     ...props
@@ -78,20 +74,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   ref,
 ) {
   const Comp = asChild ? Slot : "button";
-  const magnetic = useMagneticHover<HTMLButtonElement>({
-    disabled: disabled || isLoading,
-    maxDisplacement: 8,
-  });
-
-  function handleMouseMove(event: ReactMouseEvent<HTMLButtonElement>) {
-    onMouseMove?.(event);
-    magnetic.onMouseMove(event);
-  }
-
-  function handleMouseLeave(event: ReactMouseEvent<HTMLButtonElement>) {
-    onMouseLeave?.(event);
-    magnetic.onMouseLeave();
-  }
 
   const content = (
     <>
@@ -101,9 +83,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   );
 
   const sharedClassName = cn(
-    "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border font-medium tracking-tight transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)] disabled:pointer-events-none disabled:opacity-50",
+    "group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border font-medium tracking-normal transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)] disabled:pointer-events-none disabled:opacity-50",
     "motion-reduce:transform-none motion-reduce:transition-none",
-    "will-change-transform",
     variantClasses[variant],
     sizeClasses[size],
     className,
@@ -112,21 +93,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   if (asChild) {
     return (
       <Comp
-        ref={(node) => {
-          magnetic.ref(node);
-          if (typeof ref === "function") {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-        }}
+        ref={ref}
         aria-busy={isLoading || undefined}
         aria-disabled={disabled || isLoading || undefined}
         className={sharedClassName}
         data-loading={isLoading ? "true" : undefined}
-        onMouseLeave={handleMouseLeave}
-        onMouseMove={handleMouseMove}
-        style={{ ...magnetic.style, ...style }}
         {...props}
       >
         {children}
@@ -136,21 +107,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 
   return (
     <Comp
-      ref={(node) => {
-        magnetic.ref(node);
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      }}
+      ref={ref}
       aria-busy={isLoading || undefined}
       className={sharedClassName}
       data-loading={isLoading ? "true" : undefined}
       disabled={disabled || isLoading}
-      onMouseLeave={handleMouseLeave}
-      onMouseMove={handleMouseMove}
-      style={{ ...magnetic.style, ...style }}
       type={type}
       {...props}
     >
