@@ -5,7 +5,7 @@ import { createSiteMetadata } from "../../../lib/seo";
 export const metadata: Metadata = createSiteMetadata({
   title: "Newsletter | Suthankan",
   description:
-    "Subscribe to Suthankan's monthly notes on full-stack engineering, travel journals, and project updates.",
+    "Subscribe to Suthankan's monthly notes on full-stack engineering, learning logs, and project updates.",
   path: "/newsletter",
 });
 

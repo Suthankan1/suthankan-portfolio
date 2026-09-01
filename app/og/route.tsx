@@ -17,7 +17,7 @@ const colors = {
   border: "#2A2A2A",
 };
 
-type OgType = "blog" | "project" | "travel" | "default";
+type OgType = "blog" | "project" | "default";
 
 function clampText(value: string | null, fallback: string, maxLength: number): string {
   const text = value?.trim() || fallback;
@@ -25,7 +25,7 @@ function clampText(value: string | null, fallback: string, maxLength: number): s
 }
 
 function getType(value: string | null): OgType {
-  if (value === "blog" || value === "project" || value === "travel" || value === "default") {
+  if (value === "blog" || value === "project" || value === "default") {
     return value;
   }
 
@@ -128,7 +128,7 @@ function Shell({ children, type }: { children: React.ReactNode; type: OgType }) 
               <div style={{ fontSize: 18, color: colors.muted }}>Full-Stack Developer</div>
             </div>
           </div>
-          <Tag tone={type === "travel" ? "secondary" : "primary"}>
+          <Tag tone="primary">
             {type === "default" ? "Portfolio" : type.charAt(0).toUpperCase() + type.slice(1)}
           </Tag>
         </div>
@@ -156,7 +156,7 @@ export async function GET(request: Request) {
   const title = clampText(searchParams.get("title"), "Suthankan", type === "default" ? 72 : 86);
   const description = clampText(
     searchParams.get("description"),
-    "Full-stack development, technical writing, and travel stories.",
+    "Full-stack development, technical writing, and product engineering.",
     150,
   );
   const category = clampText(searchParams.get("category"), type === "blog" ? "Field Notes" : "Featured", 32);

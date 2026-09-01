@@ -11,7 +11,7 @@ import { cn } from "../../lib/utils";
 const ROLES = [
   "Full-Stack Developer",
   "Technical Writer",
-  "World Traveller",
+  "Product Builder",
 ] as const;
 
 const SOCIAL_LINKS = [

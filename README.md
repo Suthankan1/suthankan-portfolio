@@ -1,6 +1,6 @@
 # Suthankan Portfolio
 
-Premium editorial portfolio for Suthankan: IT undergraduate, full-stack developer, technical writer, and traveller from Sri Lanka. The site is built to showcase serious engineering depth through case studies, MDX writing, travel journals, certificates, services, and a polished contact funnel.
+Premium editorial portfolio for Suthankan: IT undergraduate, full-stack developer, and technical writer from Sri Lanka. The site is built to showcase serious engineering depth through case studies, MDX writing, certificates, services, and a polished contact funnel.
 
 ## Tech Stack
 
@@ -66,7 +66,6 @@ Copy `.env.local.example` to `.env.local` and fill only the services you use.
 | `CLOUDINARY_CLOUD_NAME` | Optional Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | Optional Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | Optional Cloudinary API secret |
-| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps key for travel embeds |
 | `CALENDLY_URL` | Booking URL for service calls |
 | `SPOTIFY_CLIENT_ID` | Spotify app client ID for now playing |
 | `SPOTIFY_CLIENT_SECRET` | Spotify app client secret for now playing |
@@ -97,7 +96,7 @@ npm run build
 
 ## Content
 
-Blog posts live in `content/blog` as MDX and are typed by `contentlayer.config.ts`. Project and travel data currently live in `lib/data`.
+Blog posts live in `content/blog` as MDX and are typed by `contentlayer.config.ts`. Project data currently lives in `lib/data`.
 
 ## Contact
 

@@ -23,7 +23,6 @@ const QUICK_LINKS = [
   { label: "Projects", href: "/projects" },
   { label: "Blog", href: "/blog" },
   { label: "External Articles", href: "/blog/external" },
-  { label: "Travels", href: "/travels" },
   { label: "Services", href: "/services" },
   { label: "Newsletter", href: "/newsletter" },
   { label: "Certificates", href: "/certificates" },

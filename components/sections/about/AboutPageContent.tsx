@@ -64,11 +64,11 @@ const VALUES = [
 ] as const;
 
 const FUN_FACTS = [
-  "I plan trips with the same precision I plan architecture.",
-  "I keep a notebook of UI patterns spotted while traveling.",
+  "I plan features with the same precision I plan architecture.",
+  "I keep a notebook of UI patterns from products I study.",
   "I enjoy refactoring almost as much as building from scratch.",
   "I can spend hours tuning typography on a single section.",
-  "I collect coffee stories from every city I visit.",
+  "I collect tiny interface details that most people scroll past.",
 ] as const;
 
 function SectionReveal({
@@ -162,7 +162,7 @@ export function AboutPageContent() {
               I'm Suthankan.
             </h1>
             <p className="text-xl font-medium tracking-tight text-text-secondary sm:text-2xl">
-              IT undergrad. Full-stack builder. World traveller.
+              IT undergrad. Full-stack builder. Technical writer.
             </p>
             <p className="max-w-2xl text-lg leading-8 text-text-secondary">
               I craft digital products that feel sharp, useful, and human. My work blends
@@ -211,7 +211,7 @@ export function AboutPageContent() {
           </p>
           <p>
             Today, I am driven by impact: creating products people genuinely use, learning fast,
-            and documenting lessons through writing and travel-led perspective.
+            and documenting lessons through clear technical writing.
           </p>
         </div>
       </SectionReveal>
