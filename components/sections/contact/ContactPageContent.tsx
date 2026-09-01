@@ -1,26 +1,27 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  AtSign,
+  BookOpen,
+  BriefcaseBusiness,
   CalendarDays,
   CheckCircle2,
   Clock3,
+  GitFork,
   Mail,
   MapPin,
   Phone,
   Send,
-  Sparkles,
   X,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../../ui/Button";
-import { GithubIcon } from "../../icons/GithubIcon";
-import { LinkedinIcon } from "../../icons/LinkedinIcon";
-import { Card } from "../../ui/Card";
 import { CALENDLY_URL } from "../../shared/CalendlyInlineWidget";
+import { Button } from "../../ui/Button";
+import { StatusLabel } from "../../ui/StatusLabel";
 import { cn } from "../../../lib/utils";
 
 const subjectOptions = [
@@ -42,6 +43,7 @@ const contactFormSchema = z.object({
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
+type SubmitState = "idle" | "submitting" | "success" | "error";
 
 const emptyFormValues: ContactFormValues = {
   name: "",
@@ -51,88 +53,54 @@ const emptyFormValues: ContactFormValues = {
   website: "",
 };
 
-const socialLinks = [
+const DIRECT_LINKS = [
   {
-    label: "GitHub",
-    handle: "@Suthankan1",
-    href: "https://github.com/Suthankan1",
-    icon: GithubIcon,
+    label: "Email",
+    value: "Suthankanbala2019@gmail.com",
+    href: "mailto:Suthankanbala2019@gmail.com",
+    Icon: Mail,
   },
   {
-    label: "LinkedIn",
-    handle: "/in/suthankan",
-    href: "https://www.linkedin.com/in/suthankan/",
-    icon: LinkedinIcon,
+    label: "Phone",
+    value: "+94 71 938 6979",
+    href: "tel:+94719386979",
+    Icon: Phone,
   },
   {
-    label: "Twitter/X",
-    handle: "@B_Suthankan",
-    href: "https://x.com/B_Suthankan",
-    icon: X,
-  },
-  {
-    label: "Medium",
-    handle: "@suthankanbala2019",
-    href: "https://medium.com/@suthankanbala2019",
-    icon: MediumIcon,
+    label: "Calendly",
+    value: "Book a short call",
+    href: CALENDLY_URL,
+    Icon: CalendarDays,
   },
 ] as const;
 
-type SubmitState = "idle" | "submitting" | "success" | "error";
+const SOCIAL_LINKS = [
+  { label: "GitHub", value: "@Suthankan1", href: "https://github.com/Suthankan1", Icon: GitFork },
+  { label: "LinkedIn", value: "/in/suthankan", href: "https://www.linkedin.com/in/suthankan/", Icon: BriefcaseBusiness },
+  { label: "Medium", value: "@suthankanbala2019", href: "https://medium.com/@suthankanbala2019", Icon: BookOpen },
+  { label: "Twitter/X", value: "@B_Suthankan", href: "https://x.com/B_Suthankan", Icon: X },
+] as const;
 
-type SocialIconComponent = (typeof socialLinks)[number]["icon"];
-
-function MediumIcon({ className }: { className?: string }) {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className={cn("h-4 w-4 fill-current", className)}>
-      <path d="M5.38 6.13C2.41 6.13 0 8.76 0 12s2.41 5.87 5.38 5.87 5.38-2.63 5.38-5.87-2.41-5.87-5.38-5.87Zm8.56.34c-1.5 0-2.71 2.48-2.71 5.53s1.21 5.53 2.71 5.53 2.71-2.48 2.71-5.53-1.21-5.53-2.71-5.53Zm6.09.58c-.77 0-1.4 2.22-1.4 4.95s.63 4.95 1.4 4.95 1.4-2.22 1.4-4.95-.63-4.95-1.4-4.95Z" />
-    </svg>
-  );
-}
-
-function SocialIcon({ icon: Icon }: { icon: SocialIconComponent }) {
-  return <Icon className="h-4 w-4 shrink-0" />;
-}
-
-function FieldError({ message }: { message?: string }) {
+function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) {
     return null;
   }
 
-  return <p className="text-xs leading-5 text-[color-mix(in_srgb,var(--accent-primary)_78%,var(--text-primary))]">{message}</p>;
+  return (
+    <p id={id} className="text-xs leading-5 text-[color-mix(in_srgb,var(--accent-primary)_78%,var(--text-primary))]">
+      {message}
+    </p>
+  );
 }
 
 export function ContactPageContent() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitError, setSubmitError] = useState("");
-  const prefersReducedMotion = useReducedMotion() ?? false;
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: emptyFormValues,
   });
-
-  const emailParts = useMemo(() => ["Suthankanbala2019", "gmail.com"], []);
-  const emailAddress = `${emailParts[0]}@${emailParts[1]}`;
-  const phoneNumber = "+94719386979";
-  const phoneLabel = "+94 71 938 6979";
-
-  const cardMotionProps = !prefersReducedMotion
-    ? {
-        initial: { opacity: 0, y: 16 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.35 },
-        transition: { duration: 0.55 },
-      }
-    : {};
-
-  const submitMotionProps = !prefersReducedMotion
-    ? {
-        initial: { opacity: 0, y: 10 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.35 },
-      }
-    : {};
 
   async function onSubmit(values: ContactFormValues) {
     setSubmitState("submitting");
@@ -171,299 +139,219 @@ export function ContactPageContent() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-bg-primary text-text-primary">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-136 bg-[radial-gradient(circle_at_top_left,color-mix(in_srgb,var(--accent-primary)_16%,transparent),transparent_34%),radial-gradient(circle_at_top_right,color-mix(in_srgb,var(--accent-secondary)_10%,transparent),transparent_30%)]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-104 -z-10 h-px bg-[linear-gradient(90deg,transparent,color-mix(in_srgb,var(--border)_88%,transparent),transparent)]"
-      />
-
-      <section className="mx-auto w-full max-w-7xl px-6 pt-16 pb-10 sm:px-8 lg:px-12 lg:pt-24 lg:pb-14">
-        <motion.div {...cardMotionProps}>
-          <p className="type-accent-label text-accent-primary">CONTACT</p>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--accent-secondary)_42%,var(--border))] bg-[color-mix(in_srgb,var(--accent-secondary)_10%,transparent)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-text-primary">
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-secondary">
-                <span className="absolute inset-0 rounded-full bg-accent-secondary opacity-50 motion-safe:animate-ping" />
-              </span>
-              Available for select work
-            </span>
-            <span className="text-sm text-text-muted">Colombo, Sri Lanka · UTC+5:30</span>
+    <main className="min-h-screen bg-bg-primary text-text-primary">
+      <section className="border-b border-border">
+        <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-14 sm:px-8 lg:grid-cols-[1fr_0.38fr] lg:items-end lg:px-12 lg:py-18">
+          <div>
+            <p className="field-note-kicker">Contact</p>
+            <h1 className="mt-5 max-w-5xl text-balance font-display text-[clamp(3.25rem,8vw,7rem)] font-semibold leading-[0.9] tracking-normal">
+              Let&apos;s talk through the build.
+            </h1>
+            <p className="mt-7 max-w-3xl text-lg leading-8 text-text-secondary sm:text-xl">
+              Share what you are building, the current constraint, and what a useful next step would look like. I will reply with a practical direction.
+            </p>
           </div>
-          <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.5rem,9vw,7.2rem)] font-semibold leading-[0.9] tracking-[-0.07em]">
-            Let&apos;s talk.
-          </h1>
-          <p className="mt-6 max-w-3xl text-balance text-lg leading-8 text-text-secondary sm:text-xl">
-            Whether it&apos;s a job, a project, or just a hello — my inbox is always open.
-          </p>
-        </motion.div>
+          <aside className="field-note-rule pt-5 text-sm leading-6 text-text-secondary">
+            <StatusLabel tone="active">Usually replies within 24 hours</StatusLabel>
+            <p className="mt-4 flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-accent-primary" />
+              Colombo, Sri Lanka, UTC+5:30
+            </p>
+          </aside>
+        </div>
       </section>
 
-      <section className="mx-auto grid w-full max-w-7xl gap-8 px-6 pb-20 sm:px-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)] lg:px-12 lg:pb-28">
-        <motion.div {...cardMotionProps} className="h-full">
-          <Card className="h-full overflow-hidden p-6 sm:p-8 lg:p-10">
-            <div className="mb-8 flex flex-col gap-4 border-b border-[color-mix(in_srgb,var(--border)_82%,transparent)] pb-6 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="type-accent-label text-accent-primary">Send a note</p>
-                <p className="mt-3 max-w-xl text-sm leading-6 text-text-secondary">
-                  Tell me what you are building, what help you need, and what timeline you have in mind.
-                </p>
+      <section className="mx-auto grid w-full max-w-7xl gap-8 px-6 py-14 sm:px-8 lg:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)] lg:px-12 lg:py-18">
+        <div className="rounded-lg border border-border bg-bg-secondary p-6 sm:p-8">
+          <div className="mb-8 border-b border-border pb-6">
+            <p className="field-note-kicker">Send a note</p>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-text-secondary">
+              A clear first message is enough: context, timeline, and where you think I can help.
+            </p>
+          </div>
+
+          <form className="space-y-6" noValidate onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid gap-5 md:grid-cols-2">
+              <div className="space-y-2.5">
+                <label htmlFor="name" className="text-sm font-medium text-text-primary">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  autoComplete="name"
+                  placeholder="Your name"
+                  aria-invalid={Boolean(form.formState.errors.name)}
+                  aria-describedby={form.formState.errors.name ? "name-error" : undefined}
+                  className={fieldClassName}
+                  {...form.register("name")}
+                />
+                <FieldError id="name-error" message={form.formState.errors.name?.message} />
               </div>
-              <div className="flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--border)_86%,transparent)] bg-bg-primary px-3 py-2 text-xs font-medium text-text-secondary">
-                <Sparkles className="h-3.5 w-3.5 text-accent-primary" />
-                Replies usually land within 24 hours
+
+              <div className="space-y-2.5">
+                <label htmlFor="email" className="text-sm font-medium text-text-primary">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  aria-invalid={Boolean(form.formState.errors.email)}
+                  aria-describedby={form.formState.errors.email ? "email-error" : undefined}
+                  className={fieldClassName}
+                  {...form.register("email")}
+                />
+                <FieldError id="email-error" message={form.formState.errors.email?.message} />
               </div>
             </div>
 
-            <form className="space-y-6" noValidate onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="grid gap-5 md:grid-cols-2">
-                <div className="space-y-2.5">
-                  <label htmlFor="name" className="text-sm font-medium text-text-primary">
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    autoComplete="name"
-                    placeholder="Your name"
-                    className={fieldClassName}
-                    {...form.register("name")}
-                  />
-                  <FieldError message={form.formState.errors.name?.message} />
-                </div>
-
-                <div className="space-y-2.5">
-                  <label htmlFor="email" className="text-sm font-medium text-text-primary">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="you@example.com"
-                    className={fieldClassName}
-                    {...form.register("email")}
-                  />
-                  <FieldError message={form.formState.errors.email?.message} />
-                </div>
-              </div>
-
-              <div className="space-y-2.5">
-                <label htmlFor="subject" className="text-sm font-medium text-text-primary">
-                  Subject
-                </label>
-                <select id="subject" className={fieldClassName} defaultValue="" {...form.register("subject")}>
-                  <option value="" disabled>
-                    Select a subject
+            <div className="space-y-2.5">
+              <label htmlFor="subject" className="text-sm font-medium text-text-primary">
+                Subject
+              </label>
+              <select
+                id="subject"
+                defaultValue=""
+                aria-invalid={Boolean(form.formState.errors.subject)}
+                aria-describedby={form.formState.errors.subject ? "subject-error" : undefined}
+                className={fieldClassName}
+                {...form.register("subject")}
+              >
+                <option value="" disabled>
+                  Select a subject
+                </option>
+                {subjectOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
-                  {subjectOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                <FieldError message={form.formState.errors.subject?.message} />
-              </div>
-
-              <div className="space-y-2.5">
-                <label htmlFor="message" className="text-sm font-medium text-text-primary">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={8}
-                  placeholder="Share the context, scope, and what success looks like."
-                  className={cn(fieldClassName, "min-h-44 resize-y py-3")}
-                  {...form.register("message")}
-                />
-                <FieldError message={form.formState.errors.message?.message} />
-              </div>
-
-              <div className="sr-only" aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input id="website" type="text" tabIndex={-1} autoComplete="off" {...form.register("website")} />
-              </div>
-
-              <div aria-live="polite" aria-atomic="true">
-                {submitState === "success" ? (
-                  <motion.div
-                    {...submitMotionProps}
-                    className="rounded-md border border-[color-mix(in_srgb,var(--accent-secondary)_42%,var(--border))] bg-[color-mix(in_srgb,var(--accent-secondary)_12%,transparent)] px-4 py-4"
-                  >
-                    <div className="flex items-center gap-3 text-sm font-medium text-text-primary">
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--accent-secondary)_20%,transparent)] text-accent-secondary">
-                        <CheckCircle2 className="h-4 w-4" />
-                      </span>
-                      <span>Message sent! I&apos;ll reply within 24 hours.</span>
-                    </div>
-                  </motion.div>
-                ) : null}
-
-                {submitState === "error" ? (
-                  <motion.div
-                    {...submitMotionProps}
-                    className="rounded-md border border-[color-mix(in_srgb,var(--accent-primary)_34%,var(--border))] bg-[color-mix(in_srgb,var(--accent-primary)_10%,transparent)] px-4 py-4"
-                  >
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-text-primary">{submitError}</p>
-                        <p className="mt-1 text-xs text-text-secondary">You can retry with the same message.</p>
-                      </div>
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-2 text-sm font-semibold text-accent-primary transition-opacity hover:opacity-80"
-                        onClick={() => {
-                          setSubmitState("idle");
-                          setSubmitError("");
-                          void form.handleSubmit(onSubmit)();
-                        }}
-                      >
-                        Retry
-                        <Send className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  </motion.div>
-                ) : null}
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-text-muted">No CAPTCHA. Just a clean message and a real reply.</p>
-                <Button
-                  type="submit"
-                  size="lg"
-                  isLoading={submitState === "submitting"}
-                  className="w-full sm:w-auto"
-                >
-                  Send Message
-                </Button>
-              </div>
-            </form>
-          </Card>
-        </motion.div>
-
-        <aside className="space-y-4 lg:sticky lg:top-24">
-          <motion.div {...cardMotionProps}>
-            <Card className="p-5">
-              <p className="type-accent-label text-accent-primary">Direct email</p>
-              <a
-                href={`mailto:${emailAddress}`}
-                className="mt-4 inline-flex items-center gap-3 text-base font-medium text-text-primary transition-colors hover:text-accent-primary"
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--border)_86%,transparent)] bg-bg-primary">
-                  <Mail className="h-4 w-4 text-accent-primary" />
-                </span>
-                <span className="leading-none">
-                  <span className="block">{emailParts[0]}</span>
-                  <span className="block text-text-secondary">@{emailParts[1]}</span>
-                </span>
-              </a>
-            </Card>
-          </motion.div>
-
-          <motion.div {...cardMotionProps}>
-            <Card className="p-5">
-              <p className="type-accent-label text-accent-primary">Phone</p>
-              <a
-                href={`tel:${phoneNumber}`}
-                className="mt-4 inline-flex items-center gap-3 text-base font-medium text-text-primary transition-colors hover:text-accent-primary"
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--border)_86%,transparent)] bg-bg-primary">
-                  <Phone className="h-4 w-4 text-accent-primary" />
-                </span>
-                {phoneLabel}
-              </a>
-            </Card>
-          </motion.div>
-
-          <motion.div {...cardMotionProps}>
-            <Card className="p-5">
-              <p className="type-accent-label text-accent-primary">Location</p>
-              <div className="mt-4 flex items-start gap-3 text-sm text-text-secondary">
-                <span className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--border)_86%,transparent)] bg-bg-primary">
-                  <MapPin className="h-4 w-4 text-accent-primary" />
-                </span>
-                <div>
-                  <p className="text-base text-text-primary">Colombo, Sri Lanka 🇱🇰</p>
-                  <p className="mt-1">Timezone: UTC+5:30</p>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-
-          <motion.div {...cardMotionProps}>
-            <Card className="p-5">
-              <p className="type-accent-label text-accent-primary">Response time</p>
-              <div className="mt-4 flex items-start gap-3 text-sm text-text-secondary">
-                <span className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--border)_86%,transparent)] bg-bg-primary">
-                  <Clock3 className="h-4 w-4 text-accent-primary" />
-                </span>
-                <div>
-                  <p className="text-base text-text-primary">Usually within 24 hours</p>
-                  <p className="mt-1">Often much sooner on weekdays.</p>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
-
-          <motion.div {...cardMotionProps}>
-            <Card className="p-5">
-              <p className="type-accent-label text-accent-primary">Social links</p>
-              <div className="mt-4 space-y-2">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between gap-3 rounded-md border border-[color-mix(in_srgb,var(--border)_82%,transparent)] bg-bg-primary px-3.5 py-3 text-sm text-text-secondary transition-colors hover:border-[color-mix(in_srgb,var(--accent-primary)_40%,var(--border))] hover:text-text-primary"
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--border)_86%,transparent)] bg-bg-secondary text-accent-primary">
-                        <SocialIcon icon={link.icon} />
-                      </span>
-                      <span>
-                        <span className="block text-text-primary">{link.label}</span>
-                        <span className="block text-xs text-text-muted">{link.handle}</span>
-                      </span>
-                    </span>
-                    <span className="text-xs uppercase tracking-[0.18em] text-text-muted">Open</span>
-                  </a>
                 ))}
-              </div>
-            </Card>
-          </motion.div>
+              </select>
+              <FieldError id="subject-error" message={form.formState.errors.subject?.message} />
+            </div>
 
-          <motion.div {...cardMotionProps}>
-            <Card className="p-5">
-              <p className="type-accent-label text-accent-primary">Book a call</p>
-              <a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-flex w-full items-center justify-between rounded-md border border-[color-mix(in_srgb,var(--accent-primary)_30%,var(--border))] bg-[color-mix(in_srgb,var(--accent-primary)_8%,transparent)] px-4 py-3 text-sm font-medium text-text-primary transition-colors hover:border-[color-mix(in_srgb,var(--accent-primary)_48%,var(--border))]"
-              >
-                <span>Open Calendly</span>
-                <CalendarDays className="h-4 w-4 text-accent-primary" />
-              </a>
-            </Card>
-          </motion.div>
+            <div className="space-y-2.5">
+              <label htmlFor="message" className="text-sm font-medium text-text-primary">
+                Message
+              </label>
+              <textarea
+                id="message"
+                rows={8}
+                placeholder="Share the context, scope, and what success looks like."
+                aria-invalid={Boolean(form.formState.errors.message)}
+                aria-describedby={form.formState.errors.message ? "message-error" : undefined}
+                className={cn(fieldClassName, "min-h-44 resize-y py-3")}
+                {...form.register("message")}
+              />
+              <FieldError id="message-error" message={form.formState.errors.message?.message} />
+            </div>
 
-          <motion.div {...cardMotionProps}>
-            <Card
-              className="border-[color-mix(in_srgb,var(--accent-secondary)_44%,var(--border))] bg-[color-mix(in_srgb,var(--accent-secondary)_11%,transparent)] p-5"
-              variant="featured"
-            >
-              <div className="flex items-center gap-3 text-sm font-medium text-text-primary">
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent-secondary">
-                  <span className="absolute inset-0 rounded-full bg-accent-secondary opacity-60 motion-safe:animate-ping" />
-                </span>
-                Open to internship and freelance opportunities
-              </div>
-            </Card>
-          </motion.div>
+            <div className="sr-only" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input id="website" type="text" tabIndex={-1} autoComplete="off" {...form.register("website")} />
+            </div>
+
+            <div aria-live="polite" aria-atomic="true">
+              {submitState === "success" ? (
+                <div className="rounded-md border border-[color-mix(in_srgb,var(--accent-secondary)_42%,var(--border))] bg-[color-mix(in_srgb,var(--accent-secondary)_12%,transparent)] px-4 py-4">
+                  <div className="flex items-center gap-3 text-sm font-medium text-text-primary">
+                    <CheckCircle2 className="h-5 w-5 text-accent-secondary" />
+                    <span>Message sent. I&apos;ll reply as soon as I can.</span>
+                  </div>
+                </div>
+              ) : null}
+
+              {submitState === "error" ? (
+                <div className="rounded-md border border-[color-mix(in_srgb,var(--accent-primary)_34%,var(--border))] bg-[color-mix(in_srgb,var(--accent-primary)_10%,transparent)] px-4 py-4">
+                  <p className="text-sm font-medium text-text-primary">{submitError}</p>
+                  <button
+                    type="button"
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-accent-primary"
+                    onClick={() => {
+                      setSubmitState("idle");
+                      setSubmitError("");
+                      void form.handleSubmit(onSubmit)();
+                    }}
+                  >
+                    Retry
+                    <Send className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-text-muted">No CAPTCHA. Just a clean message and a real reply.</p>
+              <Button type="submit" size="lg" isLoading={submitState === "submitting"} className="w-full sm:w-auto">
+                Send message
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </form>
+        </div>
+
+        <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
+          <section className="rounded-lg border border-border bg-bg-secondary p-5">
+            <p className="field-note-kicker">Direct</p>
+            <div className="mt-4 grid gap-3">
+              {DIRECT_LINKS.map(({ label, value, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="grid gap-1 rounded-md border border-border bg-bg-primary p-4 transition-colors hover:border-border-strong"
+                >
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
+                    <Icon className="h-4 w-4 text-accent-primary" />
+                    {label}
+                  </span>
+                  <span className="text-sm text-text-secondary">{value}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section className="rounded-lg border border-border bg-bg-secondary p-5">
+            <p className="field-note-kicker">Social</p>
+            <div className="mt-4 grid gap-3">
+              {SOCIAL_LINKS.map(({ label, value, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-3 rounded-md border border-border bg-bg-primary p-4 transition-colors hover:border-border-strong"
+                >
+                  <span>
+                    <span className="flex items-center gap-2 text-sm font-semibold text-text-primary">
+                      <Icon className="h-4 w-4 text-accent-primary" />
+                      {label}
+                    </span>
+                    <span className="mt-1 block text-sm text-text-secondary">{value}</span>
+                  </span>
+                  <AtSign className="h-4 w-4 text-text-muted" />
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section className="rounded-lg border border-border bg-bg-secondary p-5">
+            <p className="field-note-kicker">Fit</p>
+            <div className="mt-4 space-y-4 text-sm leading-7 text-text-secondary">
+              <p className="flex items-center gap-2 text-text-primary">
+                <Clock3 className="h-4 w-4 text-accent-primary" />
+                Best fit for scoped product engineering, Java backend work, and portfolio-quality UI implementation.
+              </p>
+              <p>
+                If the request is early, send the messy version. I can help shape it into milestones.
+              </p>
+              <Link href="/projects" className="inline-flex items-center gap-2 font-semibold text-text-primary hover:text-accent-primary">
+                Review work first
+              </Link>
+            </div>
+          </section>
         </aside>
       </section>
     </main>
@@ -471,7 +359,7 @@ export function ContactPageContent() {
 }
 
 const fieldClassName = cn(
-  "w-full rounded-[var(--radius-md)] border border-[color-mix(in_srgb,var(--border)_88%,transparent)] bg-bg-primary px-4 py-3 text-sm text-text-primary outline-none transition-[border-color,box-shadow,background-color] duration-200",
+  "w-full rounded-[var(--radius-md)] border border-border bg-bg-primary px-4 py-3 text-sm text-text-primary outline-none transition-[border-color,box-shadow,background-color] duration-200",
   "placeholder:text-text-muted/80 focus:border-[color-mix(in_srgb,var(--accent-primary)_65%,var(--border))] focus:shadow-[0_0_0_4px_color-mix(in_srgb,var(--accent-primary)_10%,transparent)]",
   "motion-reduce:transition-none",
 );
