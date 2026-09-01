@@ -39,7 +39,7 @@ export const usesSections: UsesSection[] = [
   },
   {
     title: "Hardware",
-    eyebrow: "Desk and travel kit",
+    eyebrow: "Desk and study kit",
     items: [
       {
         icon: "laptop",
@@ -66,7 +66,7 @@ export const usesSections: UsesSection[] = [
       {
         icon: "app",
         name: "Notion",
-        description: "Project planning, learning logs, travel notes, and portfolio content drafts.",
+        description: "Project planning, learning logs, research notes, and portfolio content drafts.",
         link: "https://www.notion.so/",
       },
       {

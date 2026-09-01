@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Compass, Mail, Newspaper, PenLine, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, Mail, Newspaper, PenLine, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../../ui/Button";
@@ -22,9 +22,9 @@ const DISPATCH_ITEMS = [
     icon: PenLine,
   },
   {
-    title: "Travel journals",
-    description: "Field notes from places, people, routines, and creative resets beyond the screen.",
-    icon: Compass,
+    title: "Learning logs",
+    description: "Field notes from courses, experiments, routines, and creative resets between projects.",
+    icon: Newspaper,
   },
   {
     title: "Project updates",

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | Suthankan",
   },
   description:
-    "Suthankan's editorial portfolio for full-stack development, technical storytelling, and travel depth.",
+    "Suthankan's editorial portfolio for full-stack development, technical storytelling, and product engineering.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32" },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
       {
         url: `/og?${new URLSearchParams({
           title: "Suthankan",
-          description: "Full-stack development, technical writing, projects, and travel stories.",
+          description: "Full-stack development, technical writing, projects, and product engineering.",
           type: "default",
         }).toString()}`,
         width: 1200,
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     images: [
       `/og?${new URLSearchParams({
         title: "Suthankan",
-        description: "Full-stack development, technical writing, projects, and travel stories.",
+        description: "Full-stack development, technical writing, projects, and product engineering.",
         type: "default",
       }).toString()}`,
     ],

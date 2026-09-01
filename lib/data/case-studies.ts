@@ -129,105 +129,13 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
-    slug: "travel-journal",
-    role: "Full-Stack Engineer & Product Designer",
-    timeline: "Aug 2024 – Sep 2024 (8 weeks)",
-    teamSize: "Solo",
-    overview: [
-      "Travel Journal is an interactive travel documentation platform where the map IS the navigation. Instead of a list of destinations, users explore a living world map — every pinned country reveals a cinematic trip entry with day-by-day itineraries, photo galleries, and personal narratives.",
-      "The project was born out of frustration with Instagram's ephemeral nature and Google Photos' lack of story structure. It's a hybrid between a public travel blog and a personal memory vault, with Mapbox powering the spatial layer and Supabase storing the editorial content.",
-    ],
-    problem:
-      "Travel memories decay fast. Photos scattered across three apps, itineraries buried in WhatsApp threads, and no way to share the story behind a trip without stitching together a dozen links. Existing travel apps (TripAdvisor, Polarsteps) optimise for discovery, not personal storytelling. I wanted a space where the geography is the table of contents — you navigate by place, not by date.",
-    architecture: {
-      description:
-        "The spatial layer is handled entirely by Mapbox GL JS, with custom vector tiles for country polygons and cluster markers for trip points. Trip data is stored in Supabase with PostGIS extensions enabling bounding-box queries for map viewport filtering — only trips in the visible region are fetched. Photos are processed through a Cloudinary pipeline: uploaded at full resolution, resized to three responsive variants, and served via Cloudinary's CDN with automatic format negotiation (AVIF > WebP > JPEG).",
-      diagram: `graph TD
-    Browser["React Frontend\n(Next.js 15)"]
-    Map["Mapbox GL JS\n(WebGL renderer)"]
-    API["Next.js Route Handlers"]
-    DB[("Supabase + PostGIS")]
-    Storage["Supabase Storage\n(raw uploads)"]
-    CDN["Cloudinary CDN\n(processed images)"]
-    Transform["Cloudinary Transform\nPipeline"]
-
-    Browser <-->|"GL context"| Map
-    Browser -->|"viewport bounds"| API
-    API -->|"ST_Within query"| DB
-    Browser -->|"upload"| Storage
-    Storage -->|"webhook trigger"| Transform
-    Transform -->|"AVIF/WebP/JPEG"| CDN
-    Browser -->|"img srcset"| CDN`,
-      stackBreakdown: [
-        { layer: "Frontend", technology: "Next.js 15 + React 19", purpose: "App Router, ISR for trip pages" },
-        { layer: "Mapping", technology: "Mapbox GL JS", purpose: "WebGL-powered interactive world map" },
-        { layer: "Spatial DB", technology: "Supabase + PostGIS", purpose: "Geographic queries, bounding box filters" },
-        { layer: "Media CDN", technology: "Cloudinary", purpose: "Upload, transform, serve responsive images" },
-        { layer: "Styling", technology: "Tailwind CSS v4", purpose: "Responsive layout, dark/light themes" },
-        { layer: "Animation", technology: "Framer Motion", purpose: "Page transitions, lightbox, gallery" },
-        { layer: "Lightbox", technology: "yet-another-react-lightbox", purpose: "Full-screen photo gallery" },
-        { layer: "Deployment", technology: "Vercel", purpose: "ISR revalidation, edge routing" },
-      ],
-    },
-    features: [
-      {
-        src: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=800&fit=crop",
-        alt: "Interactive world map with trip pins",
-        caption: "World map view — clustered trip markers with animated flyTo on selection",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=800&fit=crop",
-        alt: "Trip detail page with hero image",
-        caption: "Trip detail page — cinematic hero image with parallax scroll effect",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&h=800&fit=crop",
-        alt: "Day-by-day itinerary view",
-        caption: "Day-by-day itinerary — timeline with embedded map route overlay",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1452421822248-d4c2b47f0c81?w=1200&h=800&fit=crop",
-        alt: "Photo gallery lightbox",
-        caption: "Photo gallery — masonry grid with full-screen lightbox and keyboard navigation",
-      },
-    ],
-    challenges: [
-      {
-        title: "Mapbox performance on mobile with 100+ trip markers",
-        context:
-          "Rendering 100+ individual markers as DOM elements caused severe jank on mid-range Android devices. Each marker was a React component portal, and the reconciliation on every map move event was blocking the main thread for 200-400ms.",
-        solution:
-          "I migrated to Mapbox's native GeoJSON cluster layer — markers render as WebGL primitives instead of DOM nodes. React components are only mounted for the selected marker's popup. Viewport filtering via PostGIS means we only load trips in the current map bounds. Frame time dropped from 18ms average to under 4ms on the same device.",
-      },
-      {
-        title: "Lighthouse score tanking from unoptimised hero images",
-        context:
-          "Trip pages with full-bleed hero images were scoring 34 on Lighthouse mobile. Each hero was a 4MB JPEG served directly from Supabase storage with no responsive variants, no lazy loading, and no format negotiation.",
-        solution:
-          "I built a Cloudinary upload pipeline triggered by a Supabase Storage webhook. On upload, Cloudinary generates AVIF, WebP, and JPEG variants at 400w, 800w, and 1600w. The Next.js `<Image>` component uses `sizes` to pick the right variant. LCP on the hero improved from 8.2s to 1.1s. Lighthouse mobile score jumped from 34 to 91.",
-      },
-      {
-        title: "ISR cache stale after editing a trip entry",
-        context:
-          "Trip pages were statically generated at build time via ISR with a 24-hour revalidation window. When I edited a trip entry in the CMS, the old page stayed live for up to 24 hours — unacceptable for a personal journal where I might fix a typo immediately after publishing.",
-        solution:
-          "I implemented on-demand revalidation: the Supabase admin dashboard calls a `POST /api/revalidate` route handler with the trip slug and a secret token when content changes. The handler calls `revalidatePath()` for that specific trip page and the index. The stale TTL is now effectively zero for intentional updates, while the ISR background revalidation still covers unintentional cache misses.",
-      },
-    ],
-    lessons: [
-      "WebGL-native rendering beats DOM-based rendering decisively for map overlays. Always reach for a layer-level solution before a component-level one when working with mapping libraries.",
-      "LCP is not a build-time metric — it's a runtime contract. Test on real devices with network throttling before launch, not after. Slow hero images are invisible in development.",
-      "On-demand revalidation and time-based ISR serve different needs. Use both: time-based as a safety net, on-demand as the primary trigger for content changes.",
-    ],
-  },
-  {
     slug: "portfolio-v2",
     role: "Designer, Full-Stack Engineer",
     timeline: "Apr 2025 – Present",
     teamSize: "Solo",
     overview: [
       "This portfolio is not a template — it's a product. Built with Next.js 15 App Router, Tailwind CSS v4, and a bespoke design system, it deliberately rejects the cookie-cutter look that most developer portfolios settle for. Every layout decision, animation, and typographic choice is intentional.",
-      "The technical surface is broad by design: MDX-powered blog with syntax highlighting, travel journal integration, a contact API backed by Resend, view and like counters via Upstash Redis, and dynamic Open Graph images generated with Satori. It is the portfolio equivalent of a working proof of competence.",
+      "The technical surface is broad by design: MDX-powered blog with syntax highlighting, project case studies, a contact API backed by Resend, view and like counters via Upstash Redis, and dynamic Open Graph images generated with Satori. It is the portfolio equivalent of a working proof of competence.",
     ],
     problem:
       "Most developer portfolios look identical: a hero with a waving emoji, a grey card grid of projects, and a contact form that goes nowhere. The signal-to-noise ratio is terrible for a hiring manager reviewing fifty candidates. I wanted a portfolio that communicates craft through the product itself — where the code, the design, and the writing all tell the same story.",
@@ -321,7 +229,7 @@ export const caseStudies: CaseStudy[] = [
     timeline: "Jun 2024 – Jul 2024 (6 weeks)",
     teamSize: "Solo",
     overview: [
-      "Task Sync is an offline-first task management application for iOS and Android built with React Native and Expo. It was designed for users in low-bandwidth environments — field workers, travellers, and commuters — who need a reliable task list that functions perfectly without connectivity.",
+      "Task Sync is an offline-first task management application for iOS and Android built with React Native and Expo. It was designed for users in low-bandwidth environments — field workers, students, and commuters — who need a reliable task list that functions perfectly without connectivity.",
       "The app synchronises seamlessly in the background when a connection is restored, resolving conflicts automatically using a last-write-wins strategy with logical timestamps. Push notifications keep users informed of sync events, due dates, and shared task updates without requiring the app to be open.",
     ],
     problem:

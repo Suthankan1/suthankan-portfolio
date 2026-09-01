@@ -5,7 +5,7 @@ import { createSiteMetadata } from "../../../lib/seo";
 export const metadata: Metadata = createSiteMetadata({
   title: "About Suthankan",
   description:
-    "Learn about Suthankan: IT undergraduate, full-stack developer, and traveler building thoughtful digital products.",
+    "Learn about Suthankan: IT undergraduate, full-stack developer, and technical writer building thoughtful digital products.",
   path: "/about",
 });
 

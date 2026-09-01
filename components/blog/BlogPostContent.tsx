@@ -242,7 +242,7 @@ function AuthorBioCard() {
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-primary">Written by</p>
           <h2 className="mt-1 font-display text-3xl font-semibold tracking-[-0.03em]">Suthankan</h2>
           <p className="mt-2 max-w-2xl leading-relaxed text-text-secondary">
-            IT undergraduate, full-stack developer, and traveller from Sri Lanka. I write about building polished
+            IT undergraduate, full-stack developer, and technical writer from Sri Lanka. I write about building polished
             products, learning in public, and the small technical choices that make software feel considered.
           </p>
         </div>

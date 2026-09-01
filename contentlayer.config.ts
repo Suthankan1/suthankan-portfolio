@@ -5,7 +5,6 @@ const BLOG_CATEGORIES = [
   "UI Engineering",
   "Backend",
   "Full-Stack",
-  "Travel",
   "Personal Notes",
   "Productivity",
 ] as const;

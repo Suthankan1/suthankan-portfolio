@@ -28,7 +28,6 @@ const CATEGORIES = [
   "UI Engineering",
   "Backend",
   "Full-Stack",
-  "Travel",
   "Personal Notes",
   "Productivity",
 ] as const;
@@ -184,7 +183,7 @@ export function BlogIndexContent({ posts }: { posts: BlogIndexPost[] }) {
           </div>
           <p className="max-w-2xl text-base leading-relaxed text-text-secondary sm:text-lg lg:justify-self-end">
             Engineering notes, product lessons, and personal field reports from the overlap of full-stack craft,
-            interface design, and travel-shaped curiosity.
+            interface design, and practical curiosity.
           </p>
         </div>
 

@@ -24,37 +24,23 @@ const FeaturedProjectsSection = dynamic(
   },
 );
 
-const TravelTeaserSection = dynamic(
-  () =>
-    import("../components/sections/TravelTeaserSection").then(
-      (module) => module.TravelTeaserSection,
-    ),
-  {
-    loading: () => (
-      <section className="mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-        <div className="h-64 animate-pulse rounded-xl border border-border bg-bg-secondary" />
-      </section>
-    ),
-  },
-);
-
 export const metadata: Metadata = {
   title: "Suthankan — Full-Stack Developer & IT Professional",
   description:
-    "Portfolio of Suthankan: full-stack developer and IT professional showcasing projects, technical writing, and travel storytelling.",
+    "Portfolio of Suthankan: full-stack developer and IT professional showcasing projects, technical writing, and product engineering.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Suthankan — Full-Stack Developer & IT Professional",
     description:
-      "Portfolio of Suthankan: full-stack developer and IT professional showcasing projects, technical writing, and travel storytelling.",
+      "Portfolio of Suthankan: full-stack developer and IT professional showcasing projects, technical writing, and product engineering.",
     url: "/",
     images: [
       {
         url: `/og?${new URLSearchParams({
           title: "Suthankan",
-          description: "Full-stack developer, IT undergraduate, and traveller from Sri Lanka.",
+          description: "Full-stack developer, IT undergraduate, and technical writer from Sri Lanka.",
           type: "default",
         }).toString()}`,
         width: 1200,
@@ -67,11 +53,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Suthankan — Full-Stack Developer & IT Professional",
     description:
-      "Portfolio of Suthankan: full-stack developer and IT professional showcasing projects, technical writing, and travel storytelling.",
+      "Portfolio of Suthankan: full-stack developer and IT professional showcasing projects, technical writing, and product engineering.",
     images: [
       `/og?${new URLSearchParams({
         title: "Suthankan",
-        description: "Full-stack developer, IT undergraduate, and traveller from Sri Lanka.",
+        description: "Full-stack developer, IT undergraduate, and technical writer from Sri Lanka.",
         type: "default",
       }).toString()}`,
     ],
@@ -104,7 +90,6 @@ export default function Home() {
       <FeaturedProjectsSection />
       <BlogTeaserSection posts={latestBlogPosts} />
       <SkillsSection />
-      <TravelTeaserSection />
       <CTASection />
     </main>
   );

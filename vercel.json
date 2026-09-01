@@ -31,7 +31,7 @@
       ]
     },
     {
-      "source": "/(about|projects|blog|travels|certificates|services|contact|uses)(.*)",
+      "source": "/(about|projects|blog|certificates|services|contact|uses)(.*)",
       "headers": [
         {
           "key": "Cache-Control",
