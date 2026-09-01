@@ -32,7 +32,7 @@ const QUICK_LINKS = [
 
 const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/Suthankan1", icon: "github" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/suthankan/", icon: "linkedin" },
   { label: "Twitter/X", href: "https://x.com/B_Suthankan", icon: "x" },
   { label: "Medium", href: "https://medium.com/@suthankanbala2019", icon: "medium" },
 ] as const satisfies readonly SocialLink[];

@@ -232,10 +232,10 @@ export function CertificatesPageContent() {
           <div className="rounded-[var(--radius-md)] border border-dashed border-[color-mix(in_srgb,var(--accent-primary)_35%,var(--border))] bg-bg-secondary px-6 py-16 text-center">
             <ShieldCheck className="mx-auto h-10 w-10 text-accent-primary" />
             <h2 className="mt-5 font-display text-4xl font-semibold tracking-[-0.04em]">
-              No real certificates added yet.
+              No credentials match this view.
             </h2>
             <p className="mx-auto mt-3 max-w-md text-text-secondary">
-              The placeholder credentials have been cleared. Verified certificates will appear here once you provide the real details.
+              Try another category or return to the complete credential archive.
             </p>
           </div>
         )}

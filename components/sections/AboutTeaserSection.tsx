@@ -7,11 +7,13 @@ import { useCountUp } from "../../lib/hooks/useCountUp";
 import { SectionWrapper } from "../ui/SectionWrapper";
 import { AnimatedText } from "../ui/AnimatedText";
 import { cn } from "../../lib/utils";
+import { certificates } from "../../lib/data/certificates";
+import { projects } from "../../lib/data/projects";
 
 const STAT_ITEMS = [
-  { label: "Projects Built", value: 2 },
+  { label: "Projects Built", value: projects.length },
   { label: "Blog Posts", value: 2 },
-  { label: "Certifications", value: 5 },
+  { label: "Certifications", value: certificates.length },
   { label: "Countries Visited", value: 1 },
 ] as const;
 

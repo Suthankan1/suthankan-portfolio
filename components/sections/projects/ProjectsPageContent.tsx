@@ -337,7 +337,7 @@ export function ProjectsPageContent() {
           Featured projects.
         </h1>
         <p className="mt-5 max-w-3xl text-balance text-lg leading-8 text-text-secondary sm:text-xl">
-          Real project case studies will appear here once your final project details, screenshots, and links are added.
+          Selected academic builds, documented through the decisions, constraints, and lessons behind the work.
         </p>
       </section>
 
@@ -452,7 +452,7 @@ export function ProjectsPageContent() {
       <section className="mx-auto w-full max-w-7xl px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
         {filtered.length === 0 ? (
           <motion.div {...containerMotionProps} className="text-center">
-            <p className="text-text-muted">No real projects have been added yet.</p>
+            <p className="text-text-muted">No projects match the current filters.</p>
           </motion.div>
         ) : (
           <motion.div {...containerMotionProps}>

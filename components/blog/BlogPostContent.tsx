@@ -4,10 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll } from "framer-motion";
-import { Copy, Mail, MessageSquare, Share2, X } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRight, Copy, Mail, MessageSquare, Share2, X } from "lucide-react";
 import { GithubIcon } from "../icons/GithubIcon";
 import { LinkedinIcon } from "../icons/LinkedinIcon";
 import { CodeBlock } from "./MDXComponents";
@@ -269,26 +266,7 @@ function AuthorBioCard() {
   );
 }
 
-const newsletterSchema = z.object({
-  email: z.string().trim().email(),
-});
-
-type NewsletterFields = z.infer<typeof newsletterSchema>;
-
 function NewsletterCta() {
-  const [submitted, setSubmitted] = useState(false);
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-  } = useForm<NewsletterFields>({
-    resolver: zodResolver(newsletterSchema),
-  });
-
-  function onSubmit() {
-    setSubmitted(true);
-  }
-
   return (
     <section className="mt-12 border-y border-border bg-bg-secondary px-5 py-10 sm:px-8">
       <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
@@ -301,32 +279,13 @@ function NewsletterCta() {
             Occasional notes on full-stack craft, polished interfaces, and building a portfolio with real signal.
           </p>
         </div>
-        <form className="flex w-full max-w-md flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-3 sm:flex-row">
-          <label className="sr-only" htmlFor="newsletter-email">
-            Email address
-          </label>
-          <input
-            id="newsletter-email"
-            type="email"
-            placeholder="you@example.com"
-            {...register("email")}
-            className="h-12 min-w-0 flex-1 rounded-full border border-border bg-bg-primary px-4 text-sm outline-none transition-colors placeholder:text-text-muted focus:border-[var(--accent-primary)]"
-          />
-          <button
-            type="submit"
-            className="h-12 rounded-full bg-[var(--accent-primary)] px-5 text-sm font-semibold text-[var(--bg-primary)]"
-          >
-            Subscribe
-          </button>
-          </div>
-          {errors.email ? (
-            <p className="text-sm text-text-muted">{errors.email.message}</p>
-          ) : null}
-          {submitted ? (
-            <p className="text-sm font-medium text-text-primary">You are on the early list. Proper backend wiring comes next.</p>
-          ) : null}
-        </form>
+        <Link
+          href="/newsletter"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent-primary px-5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary motion-reduce:transition-none"
+        >
+          Join the newsletter
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );
