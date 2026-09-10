@@ -25,6 +25,7 @@ import { BLUR_DATA_URL } from "../../../lib/images";
 import { cn } from "../../../lib/utils";
 import GitHubContributions from "./GitHubContributions";
 import { WakaTimeStats } from "./WakaTimeStats";
+import { CvDownloadButton } from "../../shared/CvDownloadButton";
 
 const TIMELINE = [
   { year: "2003", title: "Born", description: "The beginning of the story in Sri Lanka." },
@@ -381,12 +382,7 @@ export function AboutPageContent() {
           </h2>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg">
-              <a href="/cv.pdf" download>
-                Download CV
-                <Download className="h-4 w-4" />
-              </a>
-            </Button>
+            <CvDownloadButton variant="primary" size="lg" />
 
             <Button asChild size="lg" variant="secondary">
               <Link href="/contact">

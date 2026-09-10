@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SectionWrapper } from "../ui/SectionWrapper";
 import { Button } from "../ui/Button";
 import { AnimatedText } from "../ui/AnimatedText";
+import { CvDownloadButton } from "../shared/CvDownloadButton";
 
 const AVAILABILITY_STATUS = "Currently open to internship & freelance opportunities";
 
@@ -30,12 +31,7 @@ export function CTASection() {
               </Link>
             </Button>
 
-            <Button asChild size="lg" variant="ghost">
-              <a href="/cv.pdf" download>
-                Download CV
-                <Download className="h-4 w-4" />
-              </a>
-            </Button>
+            <CvDownloadButton variant="ghost" size="lg" />
           </div>
         </div>
       </div>

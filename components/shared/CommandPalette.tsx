@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "../../lib/utils";
+import { RESUME_TRACKS } from "../../lib/cv";
 
 export type CommandPaletteProject = {
   slug: string;
@@ -62,7 +63,6 @@ type PaletteItem = {
 };
 
 const EMAIL_ADDRESS = "Suthankanbala2019@gmail.com";
-const CV_PATH = "/cv.pdf";
 const GROUPS: PaletteGroup[] = ["Pages", "Projects", "Blog Posts", "Actions"];
 
 function formatDate(date: string): string {
@@ -73,10 +73,10 @@ function formatDate(date: string): string {
   }).format(new Date(date));
 }
 
-function openCv() {
+function downloadCv(path: string, filename: string) {
   const link = document.createElement("a");
-  link.href = CV_PATH;
-  link.download = "";
+  link.href = path;
+  link.download = filename;
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -207,15 +207,26 @@ export function CommandPalette({ projects, posts }: CommandPaletteProps) {
         action: () => setTheme(currentTheme === "dark" ? "light" : "dark"),
       },
       {
-        id: "action-cv",
+        id: "action-cv-se",
         group: "Actions",
         type: "action",
-        label: "Download CV",
-        description: "Download Suthankan's curriculum vitae",
-        rightLabel: "PDF",
-        keywords: ["resume", "cv", "download"],
+        label: "Download Software Engineering CV",
+        description: RESUME_TRACKS.se.shortDescription,
+        rightLabel: "SE PDF",
+        keywords: ["resume", "cv", "software", "backend", "fullstack", "download", "se"],
         Icon: Download,
-        action: openCv,
+        action: () => downloadCv(RESUME_TRACKS.se.path, RESUME_TRACKS.se.filename),
+      },
+      {
+        id: "action-cv-devops",
+        group: "Actions",
+        type: "action",
+        label: "Download DevOps & Cloud CV",
+        description: RESUME_TRACKS.devops.shortDescription,
+        rightLabel: "DevOps PDF",
+        keywords: ["resume", "cv", "devops", "cloud", "docker", "ci/cd", "download"],
+        Icon: Download,
+        action: () => downloadCv(RESUME_TRACKS.devops.path, RESUME_TRACKS.devops.filename),
       },
       {
         id: "action-email",
