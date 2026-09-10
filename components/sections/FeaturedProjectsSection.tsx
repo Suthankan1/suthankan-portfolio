@@ -9,7 +9,17 @@ import { Tag } from "../ui/Tag";
 import { SectionWrapper } from "../ui/SectionWrapper";
 import { AnimatedText } from "../ui/AnimatedText";
 import { GithubIcon } from "../icons/GithubIcon";
-import { projects } from "../../lib/data/projects";
+import { projects, type ProjectStatus } from "../../lib/data/projects";
+
+const statusToBadgeVariant: Record<
+  ProjectStatus,
+  "live" | "in-progress" | "archived" | "featured"
+> = {
+  Live: "live",
+  Completed: "live",
+  "In Development": "in-progress",
+  Archived: "archived",
+};
 
 const featuredProjects = projects
   .filter((project) => project.featured || project.flagship)
@@ -52,7 +62,10 @@ export function FeaturedProjectsSection() {
                   </p>
                 </div>
 
-                <Badge variant={index === 0 ? "live" : "in-progress"} className="w-fit">
+                <Badge
+                  variant={statusToBadgeVariant[project.status] ?? "live"}
+                  className="w-fit"
+                >
                   {project.status}
                 </Badge>
               </div>

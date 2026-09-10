@@ -1,0 +1,17 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0B0F19"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#111827" stroke="#1F2937"/>
+  <path d="M72 178H1128" stroke="#1F2937"/>
+  <circle cx="126" cy="125" r="13" fill="#6366F1"/>
+  <circle cx="166" cy="125" r="13" fill="#06B6D4"/>
+  <circle cx="206" cy="125" r="13" fill="#F0F0F0" fill-opacity=".22"/>
+  <rect x="134" y="246" width="330" height="194" rx="18" fill="#1E1B4B" stroke="#3730A3"/>
+  <rect x="504" y="246" width="562" height="44" rx="12" fill="#1E293B" stroke="#334155"/>
+  <rect x="504" y="318" width="260" height="122" rx="18" fill="#1E293B" stroke="#334155"/>
+  <rect x="806" y="318" width="260" height="122" rx="18" fill="#1E293B" stroke="#334155"/>
+  <path d="M250 340L280 300L310 330L350 280" stroke="#06B6D4" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="350" cy="280" r="6" fill="#6366F1"/>
+  <text x="504" y="226" fill="#06B6D4" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="5">AI &amp; SCHOLARSHIP INTELLIGENCE</text>
+  <text x="504" y="374" fill="#F9FAFB" font-family="Inter, Arial, sans-serif" font-size="74" font-weight="800">GrantAI</text>
+  <text x="506" y="420" fill="#9CA3AF" font-family="Inter, Arial, sans-serif" font-size="26">Semantic vector discovery &amp; cover letter generation</text>
+</svg>

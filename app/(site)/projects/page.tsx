@@ -3,9 +3,9 @@ import { ProjectsPageContent } from "../../../components/sections/projects/Proje
 import { createSiteMetadata } from "../../../lib/seo";
 
 export const metadata: Metadata = createSiteMetadata({
-  title: "Featured projects",
+  title: "Projects",
   description:
-    "A portfolio of academic and full-stack web projects, led by my flagship Project Management App.",
+    "Explore engineering projects by Suthankan Balenthiran — full-stack applications, distributed architectures, and open-source software built with Java, Spring Boot, TypeScript, and modern web frameworks.",
   path: "/projects",
 });
 

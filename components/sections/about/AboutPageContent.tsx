@@ -9,7 +9,6 @@ import {
   BookOpen,
   Briefcase,
   Compass,
-  Download,
   Flame,
   GraduationCap,
   Handshake,

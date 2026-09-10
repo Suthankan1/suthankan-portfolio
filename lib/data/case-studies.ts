@@ -499,6 +499,132 @@ export const caseStudies: CaseStudy[] = [
       "Cache keys must include a version signal when the underlying model or logic changes. Correctness bugs from stale caches are harder to diagnose than cache misses.",
     ],
   },
+  {
+    slug: "grantai",
+    role: "Lead Full-Stack & AI Systems Engineer",
+    timeline: "May 2026 (Hacknomics 2026)",
+    teamSize: "Core Team",
+    overview: [
+      "GrantAI is an end-to-end AI grant and scholarship intelligence platform engineered to eliminate hundreds of hours of manual research, eligibility checks, and proposal drafting for academic researchers, startup founders, and nonprofit directors.",
+      "Built as a modular monorepo spanning a Next.js 14 frontend, a Spring Boot 3 enterprise service layer, and a FastAPI/LangChain AI vector engine with PostgreSQL pgvector, the platform delivers sub-second semantic matching across thousands of funding opportunities, live Server-Sent Events (SSE) proposal streaming, and an AI mock defense interview simulator.",
+    ],
+    problem:
+      "Millions of dollars in research and nonprofit grants go unclaimed each year due to fragmented databases, complex eligibility criteria, and tedious multi-page proposal requirements. Researchers spend up to 40% of their working hours drafting repetitive applications and guessing how committees will score their proposals. Existing grant portals only offer keyword search without semantic relevance or automated drafting capabilities.",
+    architecture: {
+      description:
+        "A high-performance tri-tier monorepo architecture. The Next.js 14 client communicates with the Spring Boot backend via REST and receives streaming AI completions via Server-Sent Events (SSE). The Spring Boot core handles authentication, session persistence, and scheduling, delegating semantic search and LLM synthesis to a specialized FastAPI service powered by LangChain, PostgreSQL pgvector, and Google Gemini API.",
+      diagram: `graph TD
+    Client["Browser Client\\n(Next.js 14 + Zustand)"]
+    API["Core Backend\\n(Spring Boot 3 + Java 21)"]
+    AI["AI Vector Engine\\n(FastAPI + LangChain)"]
+    PG[("PostgreSQL 16\\n+ pgvector")]
+    Redis[("Redis 7 Cache")]
+    LLM["Google Gemini API\\n(Flash / Pro)"]
+    Demo["Guided Demo Interceptor\\n(Client-side In-Memory DB)"]
+
+    Client -->|"REST / JWT"| API
+    Client -->|"SSE Stream"| AI
+    Client -.->|"Demo Mode"| Demo
+    API -->|"RPC / HTTP"| AI
+    API --> PG
+    API --> Redis
+    AI --> PG
+    AI --> LLM`,
+      stackBreakdown: [
+        { layer: "Frontend", technology: "Next.js 14 + TypeScript", purpose: "App Router, Tailwind CSS, Framer Motion, react-window virtualization" },
+        { layer: "Core Backend", technology: "Spring Boot 3 + Java 21", purpose: "Spring Security, Spring Data JPA, JWT authentication" },
+        { layer: "AI Vector Engine", technology: "FastAPI + Python 3.12", purpose: "LangChain, pgvector embeddings, streaming completions" },
+        { layer: "Database", technology: "PostgreSQL 16 + pgvector", purpose: "Relational schemas alongside vectorized grant embeddings" },
+        { layer: "Cache", technology: "Redis 7", purpose: "High-performance key-value caching and session management" },
+        { layer: "LLM", technology: "Google Gemini API", purpose: "Semantic vector synthesis and proposal drafting" },
+        { layer: "Evaluation", technology: "Guided Demo Mode", purpose: "Zero-dependency browser database for instant evaluation" },
+      ],
+    },
+    features: [
+      {
+        src: "/images/projects/grantai-cover.webp",
+        alt: "GrantAI Command Dashboard",
+        caption: "Command Dashboard — Real-time matching score, funding pipeline, and live SSE letter streaming",
+      },
+    ],
+    challenges: [
+      {
+        title: "Server-Sent Events (SSE) Streaming under High Concurrency",
+        context: "Streaming multi-paragraph proposal drafts token-by-token required uninterrupted HTTP streaming without blocking thread pools or losing client connection state.",
+        solution: "Configured FastAPI asynchronous generator streams with chunked transfer encoding, paired with client-side optimistic UI buffering in Zustand for buttery smooth rendering.",
+      },
+      {
+        title: "Zero-Latency Hackathon Evaluation",
+        context: "Hackathon evaluators needed instant access to test features without enduring database seeds, container warmups, or third-party credential setup.",
+        solution: "Engineered a zero-dependency Guided Demo Mode that intercepts API calls entirely in the browser, pre-seeding realistic Stanford bio-computation researcher personas.",
+      },
+    ],
+    lessons: [
+      "Client-side demo modes dramatically improve evaluation conversion for judges and visitors who cannot configure local environments.",
+      "Decoupling heavy LLM vector workloads into a dedicated FastAPI microservice keeps the core enterprise Spring Boot service layer fast and responsive.",
+      "Virtualized lists (react-window) are mandatory when rendering hundreds of dynamic match cards with rich metadata.",
+    ],
+  },
+  {
+    slug: "mindtrack",
+    role: "Full-Stack & Mobile Engineer",
+    timeline: "May 2026",
+    teamSize: "Core Team",
+    overview: [
+      "MindTrack is an AI-powered mental health and wellness ecosystem built in alignment with UN Sustainable Development Goal 3 (Good Health & Well-being). It bridges personal longitudinal mood tracking, biometric stress analysis, and clinical therapist booking into a unified mobile and web platform.",
+      "The system features a reactive Flutter mobile client for rapid daily emotional logging and notifications, an analytical Next.js web dashboard with Recharts trends, and a secure Spring Boot service layer protected by Bucket4j rate-limiting and JWT security.",
+    ],
+    problem:
+      "Mental health tracking tools often suffer from low user retention due to tedious manual data entry, lack of actionable emotional insights, and a disconnection from professional mental healthcare providers. Furthermore, most platforms lack multi-device continuity between quick on-the-go mobile logging and comprehensive desktop analytical reviews.",
+    architecture: {
+      description:
+        "A dual-client architecture where a cross-platform Flutter application and a Next.js 14 web portal interface with a shared Spring Boot 3 enterprise REST API. Real-time trend calculation and emotional pattern scoring are persisted in PostgreSQL, with Bucket4j safeguarding API quotas.",
+      diagram: `graph TD
+    Mobile["Flutter Mobile App\\n(Dart + Riverpod)"]
+    Web["Web Analytics Portal\\n(Next.js 14 + Recharts)"]
+    Gateway["API Gateway / Security\\n(Bucket4j Rate Limiter)"]
+    Backend["Spring Boot 3\\n(Java 21 + JPA)"]
+    DB[("PostgreSQL Database")]
+    Notif["Local Notifications\\n& Wellness Triggers"]
+
+    Mobile -->|"REST / JWT"| Gateway
+    Web -->|"REST / JWT"| Gateway
+    Mobile --> Notif
+    Gateway --> Backend
+    Backend --> DB`,
+      stackBreakdown: [
+        { layer: "Mobile Client", technology: "Flutter 3 + Dart", purpose: "Riverpod state management, GoRouter, fl_chart, Dio, Lottie" },
+        { layer: "Web Portal", technology: "Next.js 14 + TypeScript", purpose: "Tailwind CSS, Recharts analytics, NextAuth, responsive web portal" },
+        { layer: "Backend Service", technology: "Spring Boot 3 + Java 21", purpose: "Spring Data JPA, Spring Security, Bucket4j rate limiting" },
+        { layer: "Database", technology: "PostgreSQL", purpose: "Relational persistence for longitudinal logs, habits, and therapist records" },
+        { layer: "Notification Layer", technology: "flutter_local_notifications", purpose: "Scheduled mindfulness habits and emotional check-in nudges" },
+      ],
+    },
+    features: [
+      {
+        src: "/images/projects/mindtrack-cover.webp",
+        alt: "MindTrack Unified Ecosystem",
+        caption: "MindTrack Unified Ecosystem — Flutter mobile logging interface paired with Next.js web analytics dashboard",
+      },
+    ],
+    challenges: [
+      {
+        title: "Cross-Platform State Consistency between Mobile & Web",
+        context: "Users frequently switch between recording mood on their mobile device and reviewing weekly trends on their desktop browser, requiring strict timestamp synchronization.",
+        solution: "Established standardized UTC millisecond timestamp schemas and synchronized JWT session refresh tokens across both client platforms.",
+      },
+      {
+        title: "Longitudinal Emotion Analytics Performance",
+        context: "Calculating dynamic rolling averages, stress variance, and streak metrics across months of entries caused slow database queries.",
+        solution: "Designed compound indexing on user_id and recorded_at with pre-aggregated weekly summary views in PostgreSQL.",
+      },
+    ],
+    lessons: [
+      "Single-tap mood sliders and frictionless mobile interactions drive significantly higher daily habit completion rates.",
+      "Rate limiting with Bucket4j at the gateway layer is critical for protecting mental health logging endpoints against abuse.",
+      "Aligning projects with measurable social frameworks like UN SDG 3 sharpens product scope and user value.",
+    ],
+  },
 ];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
